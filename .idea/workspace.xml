@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="8ef28640-e671-4b2a-a41b-f26ba30f4dff" name="Default Changelist" comment="" />
+    <list default="true" id="8ef28640-e671-4b2a-a41b-f26ba30f4dff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -12,6 +16,9 @@
     <execution>
       <executable />
     </execution>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration">
     <include_path>
@@ -126,6 +133,7 @@
     </include_path>
   </component>
   <component name="ProjectId" id="1iu7yHq7AtvCu1kAWLxGir2tnwH" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showExcludedFiles" value="true" />
@@ -133,6 +141,7 @@
   </component>
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="nodejs_package_manager_path" value="npm" />
@@ -159,18 +168,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602745876186</updated>
-      <workItem from="1602745880741" duration="12661000" />
+      <workItem from="1602745880741" duration="13140000" />
     </task>
+    <task id="LOCAL-00001" summary="提交">
+      <created>1602816312696</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1602816312696</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="1" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="提交" />
+    <option name="LAST_COMMIT_MESSAGE" value="提交" />
   </component>
   <component name="WindowStateProjectService">
     <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602811755785">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
     <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602811755785" />
+    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2" timestamp="1602816312113">
+      <screen x="47" y="0" width="1233" height="800" />
+    </state>
+    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602816312113" />
     <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog" timestamp="1602811955377">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
