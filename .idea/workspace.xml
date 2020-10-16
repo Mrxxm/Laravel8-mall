@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ef28640-e671-4b2a-a41b-f26ba30f4dff" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/public/phpinfo.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
@@ -168,7 +168,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602745876186</updated>
-      <workItem from="1602745880741" duration="13140000" />
+      <workItem from="1602745880741" duration="13705000" />
     </task>
     <task id="LOCAL-00001" summary="提交">
       <created>1602816312696</created>
@@ -196,10 +196,10 @@
       <screen x="47" y="0" width="1233" height="800" />
     </state>
     <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602816312113" />
-    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog" timestamp="1602811955377">
+    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog" timestamp="1602836499988">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
-    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602811955377" />
+    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602836499988" />
     <state x="149" y="39" key="SettingsEditor" timestamp="1602754942951">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
