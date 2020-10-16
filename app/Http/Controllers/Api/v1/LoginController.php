@@ -3,10 +3,7 @@
 
 namespace App\Http\Controllers\Api\v1;
 
-
-use app\api\service\UserToken;
 use App\Http\Controllers\Api\Response;
-use App\Http\Controllers\Dsc\ApiResponse;
 use App\Services\Impl\UserTokenServiceImpl;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
