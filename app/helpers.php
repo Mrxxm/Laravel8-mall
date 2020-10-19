@@ -73,7 +73,10 @@ if (!function_exists('api')) {
         );
         switch(strtoupper($method)){
             case 'GET':
-                $opts[CURLOPT_URL] = $url.'?'.http_build_query($params);
+                $opts[CURLOPT_URL] = $url.'?';
+                if (!empty($params)) {
+                    $opts[CURLOPT_URL] = $url . '?' . http_build_query($params);
+                }
                 break;
             case 'POST':
                 $opts[CURLOPT_URL] = $url;
