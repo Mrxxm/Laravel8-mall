@@ -23,6 +23,7 @@ class UserServiceImpl implements UserService
         if ($mobile)
             $field['mobile'] = $mobile;
         if (!empty($field)) {
+            $field['update_time'] = time();
             UserModel::where('id', '=', $uId)
                 ->update($field);
         }
