@@ -15,9 +15,10 @@ class UserController
 {
     public function updateUser(Request $request)
     {
-        $data = $request->only('nickName', 'avatarUrl', 'mobile');
+        $data = $request->only('uId', 'nickName', 'avatarUrl', 'mobile');
 
         $validator = Validator::make($data, [
+            'uId'          => 'required|integer',
             'nickName'     => 'string',
             'avatarUrl'    => 'string',
             'mobile'       => 'string',
@@ -29,12 +30,8 @@ class UserController
 
         $userService = new UserServiceImpl();
         try {
-            $uId = Token::getCurrentUId();
-            $userService->updateUserById($uId, $data);
+            $userService->updateUserById($data['uId'], $data);
         } catch (\Exception $exception) {
-            if ($exception->getMessage() == '102') {
-                return Response::makeResponse(false, Response::TOKEN_ERROR);
-            }
             return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
         }
 
