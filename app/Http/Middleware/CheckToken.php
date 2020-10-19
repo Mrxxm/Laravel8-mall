@@ -14,7 +14,7 @@ class CheckToken
     {
         $token = request()->header('token');
 
-        $validator = Validator::make([$token], [
+        $validator = Validator::make(['token' => $token], [
             'token'           => 'required|string'
         ]);
 
@@ -25,6 +25,13 @@ class CheckToken
         $isValid = Token::verifyToken($token);
 
         if (!$isValid) {
+            return Response::makeResponse(false, Response::TOKEN_ERROR);
+        }
+
+        try {
+            $uId = Token::getCurrentUId();
+            $request['uId'] = $uId;
+        } catch (\Exception $exception) {
             return Response::makeResponse(false, Response::TOKEN_ERROR);
         }
 
