@@ -66,7 +66,7 @@ class UserTokenServiceImpl implements UserTokenService
         if ($user) {
             $uId = $user['id'];
         } else {
-            $uId = $this->newUser($openid);
+            $uId = (new UserModel())->add($openid);
         }
 
         $cacheValue = $this->prepareCacheValue($wxResult, $uId);
@@ -102,14 +102,5 @@ class UserTokenServiceImpl implements UserTokenService
         }
 
         return $key;
-    }
-
-    private function newUser($openid)
-    {
-        $uId = UserModel::insertGetId([
-            'openid' => $openid
-        ]);
-
-        return $uId;
     }
 }
