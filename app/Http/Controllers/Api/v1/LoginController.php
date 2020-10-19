@@ -40,7 +40,7 @@ class LoginController
     }
 
     /**
-     * 验证接口
+     * 验证token
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
