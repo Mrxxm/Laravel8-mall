@@ -4,6 +4,8 @@
 namespace App\Utils;
 
 
+use Illuminate\Support\Facades\Cache;
+
 class Token
 {
     public static function generateToken()
@@ -16,6 +18,17 @@ class Token
         $salt = config('secure.token_salt');
 
         return md5($randChar . $timestamp . $salt);
+    }
+
+    // 检测令牌是否过期
+    public static function verifyToken($token)
+    {
+        $exist = Cache::get($token);
+        if ($exist) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     public static function getCurrentTokenVar($key)
@@ -90,14 +103,4 @@ class Token
         return false;
     }
 
-    // 检测令牌是否过期
-    public static function verifyToken($token)
-    {
-        $exist = Cache::get($token);
-        if ($exist) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 }
