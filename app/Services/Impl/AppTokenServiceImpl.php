@@ -15,7 +15,7 @@ class AppTokenServiceImpl implements AppTokenService
     {
         $app = ThirdAppModel::check($username, $password);
         if (!$app) {
-            throw new \Exception('登录失败');
+            throw new \Exception('登录失败，用户不存在或密码错误!');
         }
 
         $values = [
