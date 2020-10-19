@@ -17,11 +17,12 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
     Route::any('v1/demo/index','DemoController@index');
-    Route::any('v1/login/getToken','LoginController@getToken');
-    Route::any('v1/login/verifyToken','LoginController@verifyToken');
-    Route::any('v1/login/getAppToken','LoginController@getAppToken');
+    Route::get('v1/login/getToken','LoginController@getToken');
+    Route::get('v1/login/verifyToken','LoginController@verifyToken');
+    Route::get('v1/login/getAppToken','LoginController@getAppToken');
 
     Route::group(['middleware' => ['checkToken']], function () {
+        Route::get('v1/user/updateUser','UserController@updateUser');
 
     });
 });
