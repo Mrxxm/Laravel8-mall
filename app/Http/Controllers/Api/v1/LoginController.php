@@ -69,8 +69,8 @@ class LoginController
     /**
      * cms使用
      * 第三方应用获取令牌
-     * @url
-     * @POST ac=:账号 se=:密码
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function getAppToken(Request $request)
     {
