@@ -36,15 +36,14 @@ class UserTokenServiceImpl implements UserTokenService
             throw new \Exception($exception->getMessage());
         }
 
-        $wxResult = resultToArray($result);
+        $wxResult = json_decode($result, true);
 
         if (empty($wxResult)) {
 
             throw new \Exception('获取open_id，session_key异常，微信内部错误');
 
         } else {
-
-            $loginFail = array_key_exists('errorcode', $wxResult);
+            $loginFail = array_key_exists('errcode', $wxResult);
 
             if ($loginFail) {
                 throw new \Exception('msg:' . $wxResult['errmsg'] . ' errorCode:' . $wxResult['errcode']);
