@@ -58,7 +58,10 @@ class LoginController
 
         $isValid = Token::verifyToken($data['token']);
 
-        return Response::makeResponse(true, Response::SUCCESS_CODE, ['isValid' => $isValid]);
+        if (!$isValid) {
+            return Response::makeResponse(false, Response::TOKEN_ERROR);
+        }
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
 }
