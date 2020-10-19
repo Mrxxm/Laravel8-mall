@@ -2,14 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8ef28640-e671-4b2a-a41b-f26ba30f4dff" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/app/Services/Impl/AppTokenServiceImpl.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/routes/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/routes/api.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="ComposerSettings" synchronizationState="SYNCHRONIZE">
+  <component name="ComposerSettings" doNotAsk="true" synchronizationState="SYNCHRONIZE">
     <pharConfigPath>$PROJECT_DIR$/composer.json</pharConfigPath>
     <execution>
       <executable />
@@ -166,7 +168,8 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1602745876186</updated>
-      <workItem from="1602745880741" duration="14262000" />
+      <workItem from="1602745880741" duration="15282000" />
+      <workItem from="1603070165395" duration="4240000" />
     </task>
     <task id="LOCAL-00001" summary="提交">
       <created>1602816312696</created>
@@ -175,7 +178,84 @@
       <option name="project" value="LOCAL" />
       <updated>1602816312696</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="提交">
+      <created>1602837970913</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1602837970914</updated>
+    </task>
+    <task id="LOCAL-00003" summary="提交">
+      <created>1602840395942</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1602840395942</updated>
+    </task>
+    <task id="LOCAL-00004" summary="提交">
+      <created>1603070894620</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1603070894620</updated>
+    </task>
+    <task id="LOCAL-00005" summary="提交">
+      <created>1603071105070</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1603071105070</updated>
+    </task>
+    <task id="LOCAL-00006" summary="提交">
+      <created>1603071111392</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1603071111393</updated>
+    </task>
+    <task id="LOCAL-00007" summary="提交">
+      <created>1603076550806</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1603076550806</updated>
+    </task>
+    <task id="LOCAL-00008" summary="提交">
+      <created>1603076559596</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1603076559596</updated>
+    </task>
+    <task id="LOCAL-00009" summary="提交">
+      <created>1603076573454</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1603076573454</updated>
+    </task>
+    <task id="LOCAL-00010" summary="提交">
+      <created>1603077219173</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1603077219173</updated>
+    </task>
+    <task id="LOCAL-00011" summary="提交">
+      <created>1603077227032</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1603077227032</updated>
+    </task>
+    <task id="LOCAL-00012" summary="提交">
+      <created>1603078012157</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1603078012157</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -186,18 +266,18 @@
     <option name="LAST_COMMIT_MESSAGE" value="提交" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1602811755785">
+    <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog" timestamp="1603077263993">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
-    <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602811755785" />
-    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2" timestamp="1602816312113">
+    <state x="378" y="162" key="#com.jetbrains.php.actions.copyPaste.importReferences.PhpImportReferencesDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1603077263993" />
+    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2" timestamp="1603078335549">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
-    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602816312113" />
-    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog" timestamp="1602836499988">
+    <state x="47" y="0" width="816" height="800" key="CommitChangelistDialog2/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1603078335549" />
+    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog" timestamp="1603077709764">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
-    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1602836499988" />
+    <state x="442" y="207" width="543" height="389" key="NewPhpClassDialog/47.0.1233.800/-282.-1080.1920.1080@47.0.1233.800" timestamp="1603077709764" />
     <state x="149" y="39" key="SettingsEditor" timestamp="1602754942951">
       <screen x="47" y="0" width="1233" height="800" />
     </state>
