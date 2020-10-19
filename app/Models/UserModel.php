@@ -25,4 +25,12 @@ class UserModel extends Model
 
         return resultToArray($user);
     }
+
+    public function add(string $openid)
+    {
+        $field = [];
+        $field['openid'] = $openid;
+
+        return self::insertGetId($field);
+    }
 }
