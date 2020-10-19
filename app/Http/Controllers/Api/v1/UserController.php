@@ -7,7 +7,6 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Api\Response;
 use App\Services\Impl\UserServiceImpl;
-use App\Utils\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
