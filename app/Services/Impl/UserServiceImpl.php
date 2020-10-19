@@ -6,7 +6,6 @@ namespace App\Services\Impl;
 
 use App\Models\UserModel;
 use App\Services\UserService;
-use App\Utils\Token;
 
 class UserServiceImpl implements UserService
 {
