@@ -5,12 +5,18 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Api\Response;
 use App\Services\Impl\UserTokenServiceImpl;
+use App\Utils\Token;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController
 {
 
+    /**
+     * 获取token
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getToken(Request $request)
     {
         $data = $request->only('code');
@@ -32,4 +38,27 @@ class LoginController
 
         return Response::makeResponse(true, Response::SUCCESS_CODE, ['token' => $token]);
     }
+
+    /**
+     * 验证接口
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function verifyToken(Request $request)
+    {
+        $data = $request->only('token');
+
+        $validator = Validator::make($data, [
+            'token'             => 'required|string',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::TOKEN_LOST);
+        }
+
+        $isValid = Token::verifyToken($data['token']);
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE, ['isValid' => $isValid]);
+    }
+
 }
