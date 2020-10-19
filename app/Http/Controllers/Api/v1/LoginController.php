@@ -61,6 +61,7 @@ class LoginController
         if (!$isValid) {
             return Response::makeResponse(false, Response::TOKEN_ERROR);
         }
+
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
