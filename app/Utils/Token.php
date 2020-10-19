@@ -31,13 +31,21 @@ class Token
         }
     }
 
+    public static function getCurrentUId()
+    {
+        try {
+            return self::getCurrentTokenVar('uId');
+        } catch (\Exception $exception) {
+            throw new \Exception($exception->getMessage());
+        }
+    }
+
     public static function getCurrentTokenVar($key)
     {
-        // 从http的请求头中获取令牌
-        $token = Request::instance()->header('token');
+        $token = request()->header('token');
         $vars = Cache::get($token);
         if (!$vars) {
-            throw new TokenException();
+            throw new \Exception('102');
         } else {
             // 判断是否为数组
             if (!is_array($vars)) {
@@ -47,15 +55,9 @@ class Token
             if (array_key_exists($key, $vars)) {
                 return $vars[$key];
             } else {
-                throw new Exception('尝试获取的Token变量不存在');
+                throw new \Exception('尝试获取的Token变量不存在');
             }
-
         }
-    }
-
-    public static function getCurrentUId()
-    {
-        return self::getCurrentTokenVar('uId');
     }
 
     // 前置方法一 (用户，管理员)
