@@ -4,6 +4,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Api\Response;
+use App\Utils\Token;
 use Closure;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,6 +20,12 @@ class CheckToken
 
         if ($validator->fails()) {
             return Response::makeResponse(false, Response::TOKEN_LOST);
+        }
+
+        $isValid = Token::verifyToken($token);
+
+        if (!$isValid) {
+            return Response::makeResponse(false, Response::TOKEN_ERROR);
         }
 
         return $next($request);
