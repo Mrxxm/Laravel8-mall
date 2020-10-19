@@ -107,10 +107,10 @@ class UserTokenServiceImpl implements UserTokenService
 
     private function newUser($openid)
     {
-        $user = UserModel::insert([
+        $uId = UserModel::insertGetId([
             'openid' => $openid
         ]);
 
-        return $user->id;
+        return $uId;
     }
 }
