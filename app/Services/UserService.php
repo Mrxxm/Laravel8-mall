@@ -6,5 +6,5 @@ namespace App\Services;
 
 interface UserService
 {
-    public function updateUser(array $data) : void;
+    public function updateUserById(int $uId, array $data) : void;
 }
