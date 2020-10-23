@@ -22,6 +22,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::get('v1/login/getAppToken','LoginController@getAppToken');
 
     Route::group(['middleware' => ['checkToken']], function () {
+        Route::get('v1/user/getUser','UserController@getUser');
         Route::get('v1/user/updateUser','UserController@updateUser');
 
     });
