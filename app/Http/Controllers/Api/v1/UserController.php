@@ -12,6 +12,28 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController
 {
+    public function getUser(Request $request)
+    {
+        $data = $request->only('uId');
+
+        $validator = Validator::make($data, [
+            'uId'          => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM);
+        }
+
+        $userService = new UserServiceImpl();
+        try {
+            $result = $userService->getUserById($data['uId']);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE, $result);
+    }
+
     public function updateUser(Request $request)
     {
         $data = $request->only('uId', 'nickName', 'avatarUrl', 'mobile');
