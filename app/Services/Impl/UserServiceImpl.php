@@ -6,6 +6,7 @@ namespace App\Services\Impl;
 
 use App\Models\UserModel;
 use App\Services\UserService;
+use Illuminate\Support\Facades\DB;
 
 class UserServiceImpl implements UserService
 {
