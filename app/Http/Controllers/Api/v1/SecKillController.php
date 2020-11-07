@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\v1;
 
 
 use App\Http\Controllers\Api\Response;
+use App\Utils\Redis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -13,6 +14,7 @@ class SecKillController
     const COUNT = 1;
 
     // ab -n 20 -c 15 http://www.tool.com/api/v1/secKill/sharedLock
+    // 非阻塞
     public function sharedLock(Request $request)
     {
         $storage = DB::table('storage')
@@ -40,6 +42,7 @@ class SecKillController
     }
 
     // ab -n 20 -c 15 http://www.tool.com/api/v1/secKill/exclusiveLock
+    // 阻塞
     public function exclusiveLock(Request $request)
     {
         DB::beginTransaction();
@@ -56,6 +59,7 @@ class SecKillController
 
         $result = DB::table('storage')
             ->where('id', '=', 1)
+            ->where('number', '>=', self::COUNT)
             ->update($upd);
 
         if ($result) {
@@ -70,8 +74,36 @@ class SecKillController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    // 非阻塞
     public function redisLock(Request $request)
     {
+        $redis = Redis::getInstance();
+        $setRes = $redis->setnx('storage', 5);
+        if ($setRes) {
 
+            $storage = DB::table('storage')
+                ->where('id', '=', 1)
+                ->first();
+
+            $quantity = $storage->number;
+
+            $upd = [];
+            $upd['number'] = $quantity - self::COUNT;
+
+            $result = DB::table('storage')
+                ->where('id', '=', 1)
+                ->where('number', '>=', self::COUNT)
+                ->update($upd);
+
+            if ($result) {
+                $insert = [];
+                $insert['number'] = $quantity;
+                DB::table('order')
+                    ->insert($insert);
+            }
+        }
+        $redis->del('storage');
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 }
