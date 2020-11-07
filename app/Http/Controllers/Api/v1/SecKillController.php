@@ -9,6 +9,22 @@ use App\Utils\Redis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+/*
+ * mysql> CREATE TABLE `storage` (
+    ->   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    ->   `number` int(11) DEFAULT NULL,
+    ->   PRIMARY KEY (`id`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+ * mysql> CREATE TABLE `order` (
+    ->   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+    ->   `number` int(11) DEFAULT NULL,
+    ->   PRIMARY KEY (`id`)
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    Query OK, 0 rows affected (0.01 sec)
+ */
+
+
 class SecKillController
 {
     const COUNT = 1;
