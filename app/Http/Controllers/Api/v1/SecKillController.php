@@ -12,6 +12,7 @@ class SecKillController
 {
     const COUNT = 1;
 
+    // ab -n 10 -c 5 http://www.tool.com/api/v1/secKill/sharedLock
     public function sharedLock(Request $request)
     {
         $storage = DB::table('storage')
@@ -38,6 +39,7 @@ class SecKillController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    // ab -n 10 -c 5 http://www.tool.com/api/v1/secKill/exclusiveLock
     public function exclusiveLock(Request $request)
     {
         DB::beginTransaction();
@@ -54,7 +56,6 @@ class SecKillController
 
         $result = DB::table('storage')
             ->where('id', '=', 1)
-            ->where('number', '>=', self::COUNT)
             ->update($upd);
 
         if ($result) {
