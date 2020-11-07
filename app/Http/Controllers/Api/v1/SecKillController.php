@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\v1;
 
 
+use App\Http\Controllers\Api\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -33,6 +34,8 @@ class SecKillController
             DB::table('order')
                 ->insert($insert);
         }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
     public function exclusiveLock(Request $request)
@@ -62,6 +65,8 @@ class SecKillController
         }
 
         DB::commit();
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
     public function redisLock(Request $request)
