@@ -25,6 +25,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         Route::get('v1/user/updateUser','UserController@updateUser');
 
     });
+
+    //
+    Route::get('v1/secKill/sharedLock','SecKillController@sharedLock');
+    Route::get('v1/secKill/exclusiveLock','SecKillController@exclusiveLocks');
+    Route::get('v1/secKill/redisLock','SecKillController@redisLock');
 });
 
 
