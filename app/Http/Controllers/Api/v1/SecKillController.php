@@ -13,8 +13,9 @@ class SecKillController
 {
     const COUNT = 1;
 
-    // ab -n 20 -c 15 http://www.tool.com/api/v1/secKill/sharedLock
-    // 非阻塞
+    // storage 10
+    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/sharedLock
+    // 非阻塞 不公平
     public function sharedLock(Request $request)
     {
         $storage = DB::table('storage')
@@ -41,8 +42,9 @@ class SecKillController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
-    // ab -n 20 -c 15 http://www.tool.com/api/v1/secKill/exclusiveLock
-    // 阻塞
+    // storage 10
+    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/exclusiveLock
+    // 阻塞 公平
     public function exclusiveLock(Request $request)
     {
         DB::beginTransaction();
@@ -74,7 +76,9 @@ class SecKillController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
-    // 非阻塞
+    // storage 10
+    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/redisLock
+    // 非阻塞 不公平
     public function redisLock(Request $request)
     {
         $redis = Redis::getInstance();
