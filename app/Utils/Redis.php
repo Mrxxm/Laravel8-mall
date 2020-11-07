@@ -22,7 +22,7 @@ class Redis
         return self::$instance = new self();
     }
 
-    public function set($key, $expTime)
+    public function setnx($key, $expTime)
     {
         // 初步加锁
         $isLock = $this->redis->setnx($key, time() + $expTime);
