@@ -13,9 +13,7 @@ class ThirdAppModel extends BaseModel
     // 默认true
     public $timestamps = true;
 
-    // 默认datetime U-时间戳
-    protected $dateFormat = '';
-
+    // 使用create方法添加时，需判断
     protected $fillable = ['app_id', 'app_secret', 'app_description', 'scope', 'scope_description'];
 
     const CREATED_AT = 'create_time';
