@@ -19,6 +19,7 @@ class BaseModel extends Model
             $requestPage = request('page');
             $currentPage = $requestPage ? $requestPage : $page;
             $res = $result->paginate($pageSize, ['*'], 'page', $currentPage);
+//            $res = $result->toSql();
         } else {
             $res = $result->get();
         }
