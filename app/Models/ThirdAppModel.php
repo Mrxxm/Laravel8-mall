@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class ThirdAppModel extends Model
+class ThirdAppModel extends BaseModel
 {
     protected $table = 'third_app';
 
