@@ -18,7 +18,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::any('v1/demo/index','DemoController@index');
     Route::get('v1/login/getToken','LoginController@getToken');
     Route::get('v1/login/verifyToken','LoginController@verifyToken');
-    Route::get('v1/login/getAppToken','LoginController@getAppToken');
 
     Route::group(['middleware' => ['checkToken']], function () {
         Route::get('v1/user/getUser','UserController@getUser');
@@ -26,7 +25,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
     });
 
-    //
+    // 秒杀
     Route::get('v1/secKill/sharedLock','SecKillController@sharedLock');
     Route::get('v1/secKill/exclusiveLock','SecKillController@exclusiveLock');
     Route::get('v1/secKill/redisLock','SecKillController@redisLock');
