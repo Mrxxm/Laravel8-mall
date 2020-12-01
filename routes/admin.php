@@ -8,9 +8,9 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
 
         // 后台用户管理
         Route::get('/adminUser/list','AdminUserController@list');
-        Route::get('/adminUser/add','AdminUserController@add');
-        Route::get('/adminUser/update','AdminUserController@update');
-        Route::get('/adminUser/delete','AdminUserController@delete');
+        Route::post('/adminUser/add','AdminUserController@add');
+        Route::post('/adminUser/update','AdminUserController@update');
+        Route::post('/adminUser/delete','AdminUserController@delete');
 
         // 前台用户管理
         Route::get('/user/list','UserController@list');
