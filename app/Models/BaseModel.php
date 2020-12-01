@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    public function list(array $select, array $conditions, array $orderBy = ['id', 'desc'], bool $paginate = true, int $currentPage = 1, $pageSize = 10) : array
+    public function list(array $select, array $conditions, array $orderBy = ['id', 'desc'], bool $paginate = true, int $page = 1, $pageSize = 10) : array
     {
         $result = self::where('id', '!=', 0);
         $result->select($select);
@@ -16,6 +16,8 @@ class BaseModel extends Model
         $this->autoOrderBy($result, $orderBy);
 
         if ($paginate) {
+            $requestPage = request('page');
+            $currentPage = $requestPage ? $requestPage : $page;
             $res = $result->paginate($pageSize, ['*'], 'page', $currentPage);
         } else {
             $res = $result->get();
