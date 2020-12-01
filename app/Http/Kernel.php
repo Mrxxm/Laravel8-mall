@@ -65,5 +65,6 @@ class Kernel extends HttpKernel
 
         // 编写
         'checkToken' => \App\Http\Middleware\CheckToken::class,
+        'checkAdminToken' => \App\Http\Middleware\CheckAdminToken::class,
     ];
 }
