@@ -62,7 +62,7 @@ class BaseModel extends Model
         if (!empty($conditions)) {
             foreach ($conditions as $condition) {
                 $num = count($condition);
-                if ($num != 2 || $num != 3) {
+                if ($num != 2 && $num != 3) {
                     throw new \Exception('conditions传值异常');
                 }
                 if ($num == 3) {
