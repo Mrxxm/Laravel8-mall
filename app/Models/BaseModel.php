@@ -6,6 +6,7 @@ namespace App\Models;
 
 use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class BaseModel extends Model
 {
@@ -34,7 +35,7 @@ class BaseModel extends Model
 
     public function add(array $fields)
     {
-        return self::create($fields);
+         return self::insert($fields);
     }
 
     public function updateById(int $id, array $fields)
