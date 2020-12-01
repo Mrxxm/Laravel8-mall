@@ -54,7 +54,6 @@ class AdminUserServiceImpl implements AdminUserService
     public function update(int $id, array $fields): void
     {
         unset($fields['id']);
-        $fields['update_time'] = Date('Y-m-d H:i:s', time());
         $this->model->updateById($id, $fields);
     }
 
