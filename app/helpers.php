@@ -103,4 +103,23 @@ if (!function_exists('api')) {
     }
 }
 
+if (!function_exists('DateFormat')) {
+    /**
+     * 数组返回
+     * @param $time
+     * @return string
+     */
+    function DateFormat($time)
+    {
+        if (empty($time) ) {
+            if ($time == 0) {
+                return '';
+            }
+            return Date('Y-m-d H:i:s', time());
+        }
+
+        return Date('Y-m-d H:i:s', $time);
+    }
+}
+
 
