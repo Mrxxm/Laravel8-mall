@@ -20,7 +20,7 @@ class AppTokenServiceImpl implements AppTokenService
 
         $values = [
             'scope' => $app['scope'],
-            'uid' => $app['id'],
+            'uId' => $app['id'],
         ];
         try {
             $token = $this->saveToCache($values);
