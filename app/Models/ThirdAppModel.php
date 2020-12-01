@@ -10,9 +10,6 @@ class ThirdAppModel extends BaseModel
 {
     protected $table = 'third_app';
 
-    // 默认true
-    public $timestamps = true;
-
     // 使用create方法添加时，需判断
     protected $fillable = ['app_id', 'app_secret', 'app_description', 'scope', 'scope_description'];
 
