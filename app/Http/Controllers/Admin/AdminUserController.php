@@ -14,10 +14,11 @@ class AdminUserController
 {
     public function list(Request $request)
     {
-        $data = $request->only('keyword');
+        $data = $request->only('keyword', 'status');
 
         $validator = Validator::make($data, [
             'keyword'             => 'string',
+            'status'              => 'integer|in:0,1',
         ]);
 
         if ($validator->fails()) {
