@@ -18,11 +18,16 @@ class AdminUserServiceImpl implements AdminUserService
 
     public function list(array $data): array
     {
-        $select = ['id', 'app_id', 'app_description', 'scope', 'scope_description', 'create_time', 'update_time'];
+        $select = ['id', 'app_id', 'app_description', 'scope', 'scope_description', 'create_time', 'update_time', 'delete_time'];
 
         $keyword = $data['keyword'] ?? '';
+        $status = $data['status'] ?? 0;
         $conditions = [];
-        $conditions[] = ['delete_time', '=', 0];
+        if ($status) {
+            $conditions[] = ['delete_time', '=', 0];
+        } else {
+            $conditions[] = ['delete_time', '!=', 0];
+        }
         if (!empty($keyword)) {
             $conditions[] = ['app_id', 'like', "%{$keyword}%"];
         }
