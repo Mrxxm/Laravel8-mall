@@ -37,6 +37,7 @@ class AdminUserServiceImpl implements AdminUserService
 
     public function update(int $id, array $fields): void
     {
+        unset($fields['id']);
         return $this->model->updateById($id, $fields);
     }
 
