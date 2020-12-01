@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class BaseModel extends Model
 {
-    public function list(array $select, array $conditions, array $orderBy = ['id', 'desc'], bool $paginate = true, int $page = 1, $pageSize = 10) : array
+    public function list(array $select, array $conditions, array $orderBy = array('id', 'desc'), bool $paginate = true, int $page = 1, $pageSize = 10) : array
     {
         $result = self::where('id', '!=', 0);
         $result->select($select);
