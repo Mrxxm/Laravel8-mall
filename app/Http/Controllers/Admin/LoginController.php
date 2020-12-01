@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Api\Response;
 use App\Services\Impl\AppTokenServiceImpl;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController
@@ -43,5 +44,14 @@ class LoginController
         }
 
         return Response::makeResponse(true, Response::SUCCESS_CODE, ['token' => $token]);
+    }
+
+    public function logout(Request $request)
+    {
+        $token = request()->header('token');
+
+        Cache::forget($token);
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 }
