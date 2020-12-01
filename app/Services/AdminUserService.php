@@ -10,7 +10,7 @@ interface AdminUserService
 
     public function add(array $fields) : void;
 
-    public function update(int $uId, array $fields) : void;
+    public function update(int $id, array $fields) : void;
 
-    public function delete(int $uId) : void;
+    public function delete(int $id) : void;
 }
