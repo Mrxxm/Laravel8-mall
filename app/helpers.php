@@ -28,7 +28,13 @@ if (!function_exists('resultToArray')) {
             return [];
         }
 
-        return json_decode(json_encode($res), true);
+        $res = json_decode(json_encode($res), true);
+
+        if (isset($res['links'])) {
+            unset($res['links']);
+        }
+
+        return $res;
     }
 }
 
