@@ -9,7 +9,7 @@ use App\Utils\Token;
 use Closure;
 use Illuminate\Support\Facades\Validator;
 
-class checkAdminToken
+class CheckAdminToken
 {
     function handle($request, Closure $next, $guard = null)
     {
