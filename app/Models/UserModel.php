@@ -10,6 +10,10 @@ class UserModel extends Model
 {
     protected $table = 'user';
 
+    const CREATED_AT = 'create_time';
+
+    const UPDATED_AT = 'update_time';
+
     public static function getByOpenId(string $openid)
     {
         $user = self::where('openid', '=', $openid)
