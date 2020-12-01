@@ -20,7 +20,7 @@ class BaseModel extends Model
             $requestPage = request('page');
             $currentPage = $requestPage ? $requestPage : $page;
             $res = $result->paginate($pageSize, ['*'], 'page', $currentPage);
-//            $res = $result->toSql();
+//            $res = $result->toSql();dd($res);
         } else {
             $res = $result->get();
         }
@@ -76,7 +76,7 @@ class BaseModel extends Model
                             $obj->whereNotIn($condition[0], $condition[2]);
                             break;
                         case 'like':
-                            $obj->where($condition[0], 'like', $condition[2]);
+                            $obj->where($condition[0], $condition[1], $condition[2]);
                             break;
                         default:
                             $obj->where($condition[0], $condition[1], $condition[2]);
