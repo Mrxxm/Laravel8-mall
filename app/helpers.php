@@ -109,7 +109,7 @@ if (!function_exists('DateFormat')) {
      * @param $time
      * @return string
      */
-    function DateFormat($time)
+    function DateFormat($time = '')
     {
         if (empty($time) ) {
             if ($time == 0) {
