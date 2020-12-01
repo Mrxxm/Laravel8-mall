@@ -21,12 +21,14 @@ class AdminUserServiceImpl implements AdminUserService
         $select = ['id', 'app_id', 'app_description', 'scope', 'scope_description', 'create_time', 'update_time', 'delete_time'];
 
         $keyword = $data['keyword'] ?? '';
-        $status = $data['status'] ?? 0;
+        $status = $data['status'] ?? null;
         $conditions = [];
-        if ($status) {
-            $conditions[] = ['delete_time', '=', 0];
-        } else {
-            $conditions[] = ['delete_time', '!=', 0];
+        if (!is_null($status)) {
+            if ($status) {
+                $conditions[] = ['delete_time', '=', 0];
+            } else {
+                $conditions[] = ['delete_time', '!=', 0];
+            }
         }
         if (!empty($keyword)) {
             $conditions[] = ['app_id', 'like', "%{$keyword}%"];
@@ -37,12 +39,14 @@ class AdminUserServiceImpl implements AdminUserService
 
     public function add(array $fields): void
     {
+        $fields['app_secret'] = md5(md5($fields['app_secret']));
         $this->model->add($fields);
     }
 
     public function update(int $id, array $fields): void
     {
         unset($fields['id']);
+        $fields['update_time'] = Date('Y-m-d H:i:s', timr());
         $this->model->updateById($id, $fields);
     }
 
