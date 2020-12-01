@@ -6,7 +6,7 @@ namespace App\Services;
 
 interface AdminUserService
 {
-    public function list(string $keyword) : array ;
+    public function list(array $data) : array ;
 
     public function add(array $fields) : void;
 
