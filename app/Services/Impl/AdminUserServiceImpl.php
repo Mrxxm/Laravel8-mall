@@ -32,17 +32,17 @@ class AdminUserServiceImpl implements AdminUserService
 
     public function add(array $fields): void
     {
-        return $this->model->add($fields);
+        $this->model->add($fields);
     }
 
     public function update(int $id, array $fields): void
     {
         unset($fields['id']);
-        return $this->model->updateById($id, $fields);
+        $this->model->updateById($id, $fields);
     }
 
     public function delete(int $id): void
     {
-        return $this->model->deleteById($id);
+        $this->model->deleteById($id);
     }
 }
