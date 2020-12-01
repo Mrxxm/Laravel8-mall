@@ -53,12 +53,21 @@ class AdminUserServiceImpl implements AdminUserService
 
     public function update(int $id, array $fields): void
     {
+        $adminUser = $this->model->find($id);
+        if (!$adminUser) {
+            throw new \Exception('用户不存在');
+        }
         unset($fields['id']);
         $this->model->updateById($id, $fields);
     }
 
     public function delete(int $id): void
     {
+        $adminUser = $this->model->find($id);
+        if (!$adminUser) {
+            throw new \Exception('用户不存在');
+        }
+
         $this->model->deleteById($id);
     }
 }
