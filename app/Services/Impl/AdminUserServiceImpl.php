@@ -34,7 +34,15 @@ class AdminUserServiceImpl implements AdminUserService
             $conditions[] = ['app_id', 'like', "%{$keyword}%"];
         }
 
-        return $this->model->list($select, $conditions);
+        $result = $this->model->list($select, $conditions);
+
+        if (count($result)) {
+            foreach ($result['data'] as &$res) {
+                $res['delete_date'] = DateFormat($res['delete_time']);
+            }
+        }
+
+        return $result;
     }
 
     public function add(array $fields): void
@@ -46,7 +54,7 @@ class AdminUserServiceImpl implements AdminUserService
     public function update(int $id, array $fields): void
     {
         unset($fields['id']);
-        $fields['update_time'] = Date('Y-m-d H:i:s', timr());
+        $fields['update_time'] = Date('Y-m-d H:i:s', time());
         $this->model->updateById($id, $fields);
     }
 
