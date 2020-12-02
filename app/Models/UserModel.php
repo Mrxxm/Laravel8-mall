@@ -6,7 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UserModel extends Model
+class UserModel extends BaseModel
 {
     protected $table = 'user';
 
@@ -20,13 +20,5 @@ class UserModel extends Model
             ->first();
 
         return resultToArray($user);
-    }
-
-    public function add(string $openid)
-    {
-        $field = [];
-        $field['openid'] = $openid;
-
-        return self::insertGetId($field);
     }
 }
