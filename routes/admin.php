@@ -12,9 +12,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::post('/adminUser/add','AdminUserController@add');
         Route::post('/adminUser/update','AdminUserController@update');
         Route::post('/adminUser/delete','AdminUserController@delete');
-
         // 前台用户管理
         Route::get('/user/list','UserController@list');
-
+        // 分类管理
+        Route::get('/category/list','CategoryController@list');
+        Route::post('/category/add','CategoryController@add');
+        Route::post('/category/update','CategoryController@update');
+        Route::post('/category/delete','CategoryController@delete');
     });
 });
