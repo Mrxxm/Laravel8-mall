@@ -37,5 +37,54 @@ class CategoryController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    public function update(Request $request)
+    {
+        $data = $request->only('id', 'icon', 'status', 'sort');
+
+        $validator = Validator::make($data, [
+            'id'               => 'required|integer',
+            'icon'             => 'string',
+            'status'           => 'integer',
+            'sort'             => 'integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new CategoryServiceImpl();
+
+        try {
+            $service->update($data['id'], $data);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
+    }
+
+    public function delete(Request $request)
+    {
+        $data = $request->only('id');
+
+        $validator = Validator::make($data, [
+            'id'             => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new CategoryServiceImpl();
+
+        try {
+            $service->delete($data['id']);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
+    }
+
 
 }
