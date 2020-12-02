@@ -15,9 +15,6 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
 
         // 前台用户管理
         Route::get('/user/list','UserController@list');
-        Route::get('/user/update','UserController@update');
-        Route::get('/user/delete','UserController@delete');
-
 
     });
 });
