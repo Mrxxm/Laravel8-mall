@@ -37,7 +37,7 @@ class UserController
     public function updateUser(Request $request)
     {
         $data = $request->only('uId', 'nickName', 'avatarUrl', 'mobile');
-
+        dd($data);
         $validator = Validator::make($data, [
             'uId'          => 'required|integer',
             'nickName'     => 'string',
