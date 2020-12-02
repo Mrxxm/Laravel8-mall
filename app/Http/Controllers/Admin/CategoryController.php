@@ -11,6 +11,31 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController
 {
+    public function list(Request $request)
+    {
+        $data = $request->only('keyword', 'pid');
+
+        $validator = Validator::make($data, [
+            'pid'              => 'required|integer',
+            'keyword'          => 'string',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new CategoryServiceImpl();
+
+        try {
+            $result = $service->list($data);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE, $result);
+
+    }
+
     public function add(Request $request)
     {
         $data = $request->only('name', 'pid', 'icon', 'sort');
