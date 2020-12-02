@@ -10,6 +10,8 @@ class UserModel extends BaseModel
 {
     protected $table = 'user';
 
+    protected $fillable = ['openid', 'nickname', 'mobile', 'avatar', 'extend'];
+
     const CREATED_AT = 'create_time';
 
     const UPDATED_AT = 'update_time';
