@@ -18,7 +18,28 @@ class CategoryServiceImpl implements CategoryService
 
     public function list(array $data): array
     {
-        // TODO: Implement list() method.
+        $select = ['id', 'name', 'pid', 'icon', 'path', 'status', 'sort', 'create_time', 'update_time', 'delete_time'];
+
+        $pid = $data['pid'];
+        $keyword = $data['keyword'] ?? '';
+
+        $conditions = [];
+        $conditions[] = ['pid', '=', $pid];
+        if (!empty($keyword)) {
+            $conditions[] = ['name', 'like', "%{$keyword}%"];
+        }
+
+        $orderBy = array('sort', 'asc');
+
+        $result = $this->model->list($select, $conditions, $orderBy);
+
+        if (count($result)) {
+            foreach ($result['data'] as &$res) {
+                $res['delete_date'] = DateFormat($res['delete_time']);
+            }
+        }
+
+        return $result;
     }
 
     public function add(array $fields): void
