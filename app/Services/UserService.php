@@ -6,7 +6,7 @@ namespace App\Services;
 
 interface UserService
 {
-    public function getUserById(int $uId) : array ;
+    public function getById(int $uId) : array ;
 
-    public function updateUserById(int $uId, array $data) : void;
+    public function updateById(int $uId, array $fields) : void;
 }
