@@ -34,7 +34,7 @@ class BaseModel extends Model
 
     public function add(array $fields)
     {
-         return self::create($fields);
+        return self::create($fields);
     }
 
     public function updateById(int $id, array $fields)
