@@ -26,7 +26,7 @@ class UserController
 
         $userService = new UserServiceImpl();
         try {
-            $result = $userService->getUserById($data['uId']);
+            $result = $userService->getById($data['uId']);
         } catch (\Exception $exception) {
             return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
         }
@@ -51,7 +51,7 @@ class UserController
 
         $userService = new UserServiceImpl();
         try {
-            $userService->updateUserById($data['uId'], $data);
+            $userService->updateById($data['uId'], $data);
         } catch (\Exception $exception) {
             return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
         }
