@@ -16,6 +16,21 @@ class CategoryServiceImpl implements CategoryService
         $this->model = new CategoryModel();
     }
 
+    public function listAll(): array
+    {
+        $select = ['id', 'name', 'pid'];
+
+        $orderBy = array('sort', 'asc');
+
+        $result = $this->model->list($select, [], $orderBy, false);
+
+        if (count($result)) {
+
+        }
+
+        return $result;
+    }
+
     public function list(array $data): array
     {
         $select = ['id', 'name', 'pid', 'icon', 'path', 'status', 'sort', 'create_time', 'update_time', 'delete_time'];
