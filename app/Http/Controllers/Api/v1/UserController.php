@@ -21,7 +21,7 @@ class UserController
         ]);
 
         if ($validator->fails()) {
-            return Response::makeResponse(false, Response::MISSING_PARAM);
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
         }
 
         $userService = new UserServiceImpl();
@@ -37,7 +37,7 @@ class UserController
     public function updateUser(Request $request)
     {
         $data = $request->only('uId', 'nickName', 'avatarUrl', 'mobile');
-        dd($data);
+
         $validator = Validator::make($data, [
             'uId'          => 'required|integer',
             'nickName'     => 'string',
@@ -46,7 +46,7 @@ class UserController
         ]);
 
         if ($validator->fails()) {
-            return Response::makeResponse(false, Response::MISSING_PARAM);
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
         }
 
         $userService = new UserServiceImpl();
