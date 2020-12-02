@@ -23,7 +23,14 @@ class CategoryServiceImpl implements CategoryService
 
     public function add(array $fields): void
     {
-        // TODO: Implement add() method.
+        // 处理path
+        if ($fields['pid'] != 0) {
+            $category = CategoryModel::find($fields['pid']);
+            $fields['path'] = $category->path . ",{$fields['pid']}";
+        } else {
+            $fields['path'] = $fields['pid'];
+        }
+        $this->model->add($fields);
     }
 
     public function update(int $id, array $fields): void
