@@ -6,6 +6,7 @@ namespace App\Services\Impl;
 
 use App\Models\CategoryModel;
 use App\Services\CategoryService;
+use App\Utils\ArrayUtil;
 
 class CategoryServiceImpl implements CategoryService
 {
@@ -18,14 +19,19 @@ class CategoryServiceImpl implements CategoryService
 
     public function listAll(): array
     {
-        $select = ['id', 'name', 'pid'];
+        $select = ['id as category_id', 'name', 'pid'];
+
+        $conditions = [];
+        $conditions[] = ['status', '=', 1];
+        $conditions[] = ['delete_time', '=', 0];
 
         $orderBy = array('sort', 'asc');
 
-        $result = $this->model->list($select, [], $orderBy, false);
+        $result = $this->model->list($select, $conditions, $orderBy, false);
 
         if (count($result)) {
-
+            $result = ArrayUtil::getTree($result);
+            $result = ArrayUtil::sliceTreeArr($result);
         }
 
         return $result;
