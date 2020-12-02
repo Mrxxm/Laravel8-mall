@@ -13,7 +13,7 @@ class CategoryController
 {
     public function listAll(Request $request)
     {
-        $data = $request->only();
+        $data = $request->only('');
 
         $validator = Validator::make($data, [
         ]);
