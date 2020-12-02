@@ -24,6 +24,7 @@ class CategoryServiceImpl implements CategoryService
         $keyword = $data['keyword'] ?? '';
 
         $conditions = [];
+        $conditions[] = ['delete_time', '=', 0];
         $conditions[] = ['pid', '=', $pid];
         if (!empty($keyword)) {
             $conditions[] = ['name', 'like', "%{$keyword}%"];
