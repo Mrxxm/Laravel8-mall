@@ -35,11 +35,20 @@ class CategoryServiceImpl implements CategoryService
 
     public function update(int $id, array $fields): void
     {
-        // TODO: Implement update() method.
+        $category = $this->model->find($id);
+        if (!$category) {
+            throw new \Exception('分类不存在');
+        }
+        unset($fields['id']);
+        $this->model->updateById($id, $fields);
     }
 
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $category = $this->model->find($id);
+        if (!$category) {
+            throw new \Exception('分类不存在');
+        }
+        $this->model->deleteById($id);
     }
 }
