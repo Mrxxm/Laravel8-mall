@@ -66,7 +66,8 @@ class UserTokenServiceImpl implements UserTokenService
         if ($user) {
             $uId = $user['id'];
         } else {
-            $uId = (new UserModel())->add($openid);
+            $user = (new UserModel())->add(['openid' => $openid]);
+            $uId = $user->id;
         }
 
         $cacheValue = $this->prepareCacheValue($wxResult, $uId);
