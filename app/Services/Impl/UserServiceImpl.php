@@ -46,4 +46,25 @@ class UserServiceImpl implements UserService
         unset($fields['uId']);
         $this->model->update($fields);
     }
+
+    public function list(array $data): array
+    {
+        $select = ['id', 'openid', 'nickname', 'mobile', 'avatar', 'extend', 'create_time', 'update_time', 'delete_time'];
+
+        $keyword = $data['keyword'] ?? '';
+        $conditions = [];
+        if (!empty($keyword)) {
+            $conditions[] = ['nickname', 'like', "%{$keyword}%"];
+        }
+
+        $result = $this->model->list($select, $conditions);
+
+        if (count($result)) {
+            foreach ($result['data'] as &$res) {
+                $res['delete_date'] = DateFormat($res['delete_time']);
+            }
+        }
+
+        return $result;
+    }
 }
