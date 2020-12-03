@@ -57,6 +57,9 @@ class AdminUserServiceImpl implements AdminUserService
         if (!$adminUser) {
             throw new \Exception('用户不存在');
         }
+        if ($adminUser->delete_time != 0) {
+            throw new \Exception('用户已删除');
+        }
         unset($fields['id']);
         $this->model->updateById($id, $fields);
     }
@@ -66,6 +69,9 @@ class AdminUserServiceImpl implements AdminUserService
         $adminUser = $this->model->find($id);
         if (!$adminUser) {
             throw new \Exception('用户不存在');
+        }
+        if ($adminUser->delete_time != 0) {
+            throw new \Exception('用户已删除');
         }
 
         $this->model->deleteById($id);
