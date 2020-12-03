@@ -137,7 +137,6 @@ class GoodsController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
-    // TODO
     public function delete(Request $request)
     {
         $data = $request->only('id');
