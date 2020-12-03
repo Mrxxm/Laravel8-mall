@@ -174,6 +174,9 @@ class GoodsServiceImpl implements GoodsService
             if (isset($fields['stock'])) {
                 $goodsSkuUpd['stock'] = $fields['stock'];
             }
+            if (isset($fields['status'])) {
+                $goodsSkuUpd['status'] = $fields['status'];
+            }
             if (!empty($goodsSkuUpd)) {
                 // 更新商品sku表
                 $this->goodsSkuService->model->updateById($skuId, $goodsSkuUpd);
