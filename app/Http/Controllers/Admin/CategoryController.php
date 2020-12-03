@@ -91,7 +91,7 @@ class CategoryController
         $validator = Validator::make($data, [
             'id'               => 'required|integer',
             'icon'             => 'string',
-            'status'           => 'integer',
+            'status'           => 'integer|in:0,1',
             'sort'             => 'integer',
         ]);
 
