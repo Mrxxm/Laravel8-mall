@@ -11,12 +11,12 @@ use App\Services\SpecsService;
 class SpecsValueServiceImpl implements SpecsService
 {
     protected $model = null;
-    protected $specsModel = null;
+    protected $specsService = null;
 
     public function __construct()
     {
         $this->model = new SpecsValueModel();
-        $this->specsModel = new SpecsModel();
+        $this->specsService = new SpecsServiceImpl();
     }
 
     public function search(array $data): array
@@ -61,7 +61,7 @@ class SpecsValueServiceImpl implements SpecsService
 
         if (count($result)) {
             foreach ($result['data'] as &$res) {
-                $res['specs_name'] = (SpecsModel::find($specsId))->name;
+                $res['specs_name'] = ($this->specsService->model->find($specsId))->name;
                 $res['delete_date'] = DateFormat($res['delete_time']);
             }
         }
@@ -72,7 +72,7 @@ class SpecsValueServiceImpl implements SpecsService
     public function add(array $fields): void
     {
         $specsId = $fields['specs_id'];
-        $specs = $this->specsModel->where('delete_time', 0)->find($specsId);
+        $specs = $this->specsService->model->where('delete_time', 0)->find($specsId);
         if (!$specs) {
             throw new \Exception('规格不存在');
         }
