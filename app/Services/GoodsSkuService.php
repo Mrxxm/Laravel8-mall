@@ -10,4 +10,6 @@ interface GoodsSkuService
      * 后台
      */
     public function batchAdd(array $fields) : array;
+
+    public function add(array $fields) : array;
 }
