@@ -10,7 +10,7 @@ use App\Utils\ArrayUtil;
 
 class GoodsSkuServiceImpl implements GoodsSkuService
 {
-    protected $model = null;
+    public $model = null;
 
     public function __construct()
     {
@@ -28,7 +28,6 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             $insert['price']           = $field['price'];
             $insert['cost_price']      = $field['cost_price'];
             $insert['stock']           = $field['stock'];
-            $insert['status']          = $field['status']?? 0;
             $sku[] = ($this->model->add($insert))->toArray();
         }
 
@@ -36,5 +35,21 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         $sku1 = ArrayUtil::arrsSortByKey($sku, 'cost_price', SORT_ASC);
 
         return $sku1;
+    }
+
+    public function add(array $fields): array
+    {
+        $goodsId = $fields['goods_id'];
+        unset($fields['goods_id']);
+
+        $insert['goods_id']        = $goodsId;
+        $insert['specs_value_ids'] = '';
+        $insert['price']           = $fields['price'];
+        $insert['cost_price']      = $fields['cost_price'];
+        $insert['stock']           = $fields['stock'];
+
+        $sku = ($this->model->add($insert))->toArray();
+
+        return $sku;
     }
 }
