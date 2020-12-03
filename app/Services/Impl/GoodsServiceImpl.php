@@ -13,12 +13,49 @@ class GoodsServiceImpl implements GoodsService
     public $model = null;
     protected $goodsSkuService = null;
     protected $categoryService = null;
+    protected $specsService = null;
+    protected $specsValueService = null;
 
     public function __construct()
     {
         $this->model = new GoodsModel();
         $this->goodsSkuService = new GoodsSkuServiceImpl();
         $this->categoryService = new CategoryServiceImpl();
+        $this->specsService = new SpecsServiceImpl();
+        $this->specsValueService = new SpecsValueServiceImpl();
+    }
+
+    public function detail(int $id): array
+    {
+        $conditions = [];
+        $conditions[] = ['id', '=', $id];
+        $conditions[] = ['delete_time', '=', 0];
+
+        $goods = $this->model->where($conditions)->first();
+        $goodsId = $goods->id;
+
+        $select = ['*'];
+        $conditions = [];
+        $conditions[] = ['goods_id', '=', $goodsId];
+        $conditions[] = ['delete_time', '=', 0];
+        $orderBy = ['id', 'asc'];
+        $goodsSku = $this->goodsSkuService->model->list($select, $conditions, $orderBy, false);
+        if (count($goodsSku)) {
+            foreach ($goodsSku as &$sku) {
+                $specsValueIds = explode(',', $sku['specs_value_ids']);
+                $select = ['*'];
+                $conditions = [];
+                $conditions[] = ['id', 'in', $specsValueIds];
+                $orderBy = ['id', 'asc'];
+                $specsValues = $this->specsValueService->model->list($select, $conditions, $orderBy, false);
+                foreach ($specsValues as &$specsValue) {
+                    $specsValue['specs_name'] = ($this->specsService->model->find($specsValue['specs_id']))->name;
+                    $sku['specs_value_arr'][$specsValue['specs_name']] = $specsValue['specs_id'];
+                }
+            }
+        }
+
+        return $goodsSku;
     }
 
     public function list(array $data): array
