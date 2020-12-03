@@ -38,22 +38,27 @@ class GoodsServiceImpl implements GoodsService
             $goodsId = $goods->id;
 
             if ($fields['goods_specs_type'] == 1) {
-                DB::commit();
-                return ;
+                // 统一规格
+                $fields['goods_id'] = $goodsId;
+                $skuResult = $this->goodsSkuService->model->add($fields);
+                $goodsUpd = [
+                    'sku_id'      => $skuResult['id'],
+                ];
+                $this->model->updateById($goodsId, $goodsUpd);
+            } else {
+                // 多规格
+                $sku['goods_id'] = $goodsId;
+                $skuResult = $this->goodsSkuService->batchAdd($sku);
+                // 总库存
+                $stock = array_sum(array_column($skuResult, "stock"));
+                $goodsUpd = [
+                    'price'       => $skuResult[0]['price'],
+                    'cost_price'  => $skuResult[0]['cost_price'],
+                    'stock'       => $stock,
+                    'sku_id'      => $skuResult[0]['id'],
+                ];
+                $this->model->updateById($goodsId, $goodsUpd);
             }
-
-            // 多规格
-            $sku['goods_id'] = $goodsId;
-            $skuResult = $this->goodsSkuService->batchAdd($sku);
-            // 总库存
-            $stock = array_sum(array_column($skuResult, "stock"));
-            $goodsUpd = [
-                'price'       => $skuResult[0]['price'],
-                'cost_price'  => $skuResult[0]['cost_price'],
-                'stock'       => $stock,
-                'sku_id'      => $skuResult[0]['id'],
-            ];
-            $this->model->updateById($goodsId, $goodsUpd);
 
         } catch (\Exception $exception) {
             DB::rollBack();
