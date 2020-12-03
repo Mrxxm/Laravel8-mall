@@ -11,10 +11,12 @@ use App\Services\SpecsService;
 class SpecsValueServiceImpl implements SpecsService
 {
     protected $model = null;
+    protected $specsModel = null;
 
     public function __construct()
     {
         $this->model = new SpecsValueModel();
+        $this->specsModel = new SpecsModel();
     }
 
     public function search(array $data): array
@@ -69,6 +71,11 @@ class SpecsValueServiceImpl implements SpecsService
 
     public function add(array $fields): void
     {
+        $specsId = $fields['specs_id'];
+        $specs = $this->specsModel->where('delete_time', 0)->find($specsId);
+        if (!$specs) {
+            throw new \Exception('规格不存在');
+        }
         $this->model->add($fields);
     }
 
