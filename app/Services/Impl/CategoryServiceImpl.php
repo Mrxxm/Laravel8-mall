@@ -39,7 +39,7 @@ class CategoryServiceImpl implements CategoryService
 
     public function search(array $data): array
     {
-        $select = ['id', 'name'];
+        $select = ['id', 'name', 'path'];
 
         $pid = $data['pid'];
 
@@ -83,14 +83,16 @@ class CategoryServiceImpl implements CategoryService
 
     public function add(array $fields): void
     {
+        $category = $this->model->add($fields);
+        $id = $category->id;
         // 处理path
         if ($fields['pid'] != 0) {
-            $category = CategoryModel::find($fields['pid']);
-            $fields['path'] = $category->path . ",{$fields['pid']}";
+            $parentCategory = CategoryModel::find($fields['pid']);
+            $upd['path'] = $parentCategory->path . ",{$id}";
         } else {
-            $fields['path'] = $fields['pid'];
+            $upd['path'] = $id;
         }
-        $this->model->add($fields);
+        $this->model->updateById($id, $upd);
     }
 
     public function update(int $id, array $fields): void
