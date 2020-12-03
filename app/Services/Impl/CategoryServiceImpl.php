@@ -10,7 +10,7 @@ use App\Utils\ArrayUtil;
 
 class CategoryServiceImpl implements CategoryService
 {
-    protected $model = null;
+    public $model = null;
 
     public function __construct()
     {
