@@ -153,6 +153,7 @@ class GoodsServiceImpl implements GoodsService
         }
         $skuId     = $goods->sku_id;
         $specsType = $goods->goods_specs_type;
+        $goodsId   = $goods->id;
         if ($specsType == 1) {
             // 统一规格
             $goodsSku = $this->goodsSkuService->model->find($skuId);
@@ -190,6 +191,14 @@ class GoodsServiceImpl implements GoodsService
             unset($fields['stock']);
             // 更新商品表
             $this->model->updateById($id, $fields);
+            $goodsSkuUpd = [];
+            if (isset($fields['status'])) {
+                $goodsSkuUpd['status'] = $fields['status'];
+            }
+            if (!empty($goodsSkuUpd)) {
+                // 更新商品sku表
+                $this->goodsSkuService->model->updateByGoodsId($goodsId, $goodsSkuUpd);
+            }
         }
 
         return ;
