@@ -37,6 +37,23 @@ class CategoryServiceImpl implements CategoryService
         return $result;
     }
 
+    public function search(array $data): array
+    {
+        $select = ['id', 'name'];
+
+        $pid = $data['pid'];
+
+        $conditions = [];
+        $conditions[] = ['delete_time', '=', 0];
+        $conditions[] = ['pid', '=', $pid];
+
+        $orderBy = array('sort', 'asc');
+
+        $result = $this->model->list($select, $conditions, $orderBy, false);
+
+        return $result;
+    }
+
     public function list(array $data): array
     {
         $select = ['id', 'name', 'pid', 'icon', 'path', 'status', 'sort', 'create_time', 'update_time', 'delete_time'];
