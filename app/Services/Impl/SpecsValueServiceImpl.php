@@ -85,7 +85,7 @@ class SpecsValueServiceImpl implements SpecsService
         if (!$specsValue) {
             throw new \Exception('规格属性不存在');
         }
-        if (!$specsValue->delete_time != 0) {
+        if ($specsValue->delete_time != 0) {
             throw new \Exception('规格属性已删除');
         }
         unset($fields['id']);
@@ -98,7 +98,7 @@ class SpecsValueServiceImpl implements SpecsService
         if (!$specsValue) {
             throw new \Exception('规格属性不存在');
         }
-        if (!$specsValue->delete_time != 0) {
+        if ($specsValue->delete_time != 0) {
             throw new \Exception('规格属性已删除');
         }
         $this->model->deleteById($id);
