@@ -20,7 +20,7 @@ class GoodsSkuController
             'stock'               => 'integer',
             'price'               => '',
             'cost_price'          => '',
-            'status'              => 'integer|0,1',
+            'status'              => 'integer|in:0,1',
         ]);
 
         if ($validator->fails()) {
