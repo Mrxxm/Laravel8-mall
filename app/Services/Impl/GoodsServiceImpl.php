@@ -98,7 +98,39 @@ class GoodsServiceImpl implements GoodsService
 
     public function update(int $id, array $fields): void
     {
-        // TODO: Implement update() method.
+        $goods = $this->model->find($id);
+        if (!$goods) {
+            throw new \Exception('商品不存在');
+        }
+        if ($goods->delete_time != 0) {
+            throw new \Exception('商品已删除');
+        }
+        $goodsId   = $goods->id;
+        $specsType = $goods->goods_specs_type;
+        if ($specsType == 1) {
+            // 统一规格
+            $goodsSku = $this->goodsSkuService->model->find($goodsId);
+            if (!$goodsSku) {
+                throw new \Exception('商品sku不存在');
+            }
+            if ($goodsSku->delete_time != 0) {
+                throw new \Exception('商品sku已删除');
+            }
+            // 更新商品表
+            $this->model->updateById($id, $fields);
+            $goodsSkuUpd['price']         = $fields['price'] ?? $goodsSku->price;
+            $goodsSkuUpd['cost_price']    = $fields['cost_price'] ?? $goodsSku->cost_price;
+            $goodsSkuUpd['stock']         = $fields['stock'] ?? $goodsSku->stock;
+            // 更新商品sku表
+            $this->goodsSkuService->model->updateById($goodsSku->id, $goodsSkuUpd);
+        } else {
+            // 多规格
+
+            // 更新商品表
+            $this->model->updateById($id, $fields);
+        }
+
+        return ;
     }
 
     public function delete(int $id): void
@@ -107,8 +139,11 @@ class GoodsServiceImpl implements GoodsService
         if (!$goods) {
             throw new \Exception('商品不存在');
         }
+        if ($goods->delete_time != 0) {
+            throw new \Exception('商品已删除');
+        }
         $goodsId = $goods->id;
         $this->model->deleteById($id);
-        $this->goodsSkuService->model->deleteById($goodsId);
+        $this->goodsSkuService->model->deleteByGoodsId($goodsId);
     }
 }
