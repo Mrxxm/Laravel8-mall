@@ -11,10 +11,12 @@ use App\Utils\ArrayUtil;
 class GoodsSkuServiceImpl implements GoodsSkuService
 {
     public $model = null;
+    public $goodsService = null;
 
     public function __construct()
     {
         $this->model = new GoodsSkuModel();
+        $this->goodsService = new GoodsServiceImpl();
     }
 
     public function batchAdd(array $fields): array
@@ -63,6 +65,26 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             throw new \Exception('商品sku已删除');
         }
 
+        // 更新商品sku表
+        $goodsId = $goodsSku->goods_id;
         $this->model->updateById($id, $fields);
+
+        $select = ['id', 'price', 'cost_price', 'stock'];
+        $conditions = [];
+        $conditions[] = ['goods_id', '=', $goodsId];
+        $conditions[] = ['delete_time', '=', 0];
+        $orderBy = ['cost_price', 'asc'];
+        $skuResult = $this->model->list($select, $conditions, $orderBy, false);
+
+        // 总库存
+        $stock = array_sum(array_column($skuResult, "stock"));
+        $goodsUpd = [
+            'price'       => $skuResult[0]['price'],
+            'cost_price'  => $skuResult[0]['cost_price'],
+            'stock'       => $stock,
+            'sku_id'      => $skuResult[0]['id'],
+        ];
+        // 更新商品表
+        $this->goodsService->model->updateById($goodsId, $goodsUpd);
     }
 }
