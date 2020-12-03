@@ -32,6 +32,9 @@ class GoodsServiceImpl implements GoodsService
         $conditions[] = ['delete_time', '=', 0];
 
         $goods = $this->model->where($conditions)->first();
+        if (!$goods) {
+            throw new \Exception('商品不存在或已删除');
+        }
         $goodsId = $goods->id;
 
         $select = ['*'];
