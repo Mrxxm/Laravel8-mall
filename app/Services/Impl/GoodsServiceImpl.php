@@ -12,16 +12,43 @@ class GoodsServiceImpl implements GoodsService
 {
     protected $model = null;
     protected $goodsSkuService = null;
+    protected $categoryService = null;
 
     public function __construct()
     {
         $this->model = new GoodsModel();
         $this->goodsSkuService = new GoodsSkuServiceImpl();
+        $this->categoryService = new CategoryServiceImpl();
     }
 
     public function list(array $data): array
     {
-        // TODO: Implement list() method.
+        $select = ['id', 'sort', 'category_id', 'title', 'stock', 'production_time', 'status', 'create_time', 'update_time', 'delete_time'];
+
+        $categoryId = $data['category_id'] ?? '';
+        $keyword = $data['keyword'] ?? '';
+
+        $conditions = [];
+        $conditions[] = ['delete_time', '=', 0];
+        if (!empty($categoryId)) {
+            $conditions[] = ['category_path_id', 'find_in_set', $categoryId];
+        }
+        if (!empty($keyword)) {
+            $conditions[] = ['name', 'like', "%{$keyword}%"];
+        }
+
+        $orderBy = array('sort', 'asc');
+
+        $result = $this->model->list($select, $conditions, $orderBy);
+
+        if (count($result)) {
+            foreach ($result['data'] as &$res) {
+                $res['delete_date'] = DateFormat($res['delete_time']);
+                $res['category_name'] = ($this->categoryService->model->find($res['category_id']))->name;
+            }
+        }
+
+        return $result;
     }
 
     public function add(array $fields): void
