@@ -25,6 +25,7 @@ class GoodsServiceImpl implements GoodsService
         $this->specsValueService = new SpecsValueServiceImpl();
     }
 
+    // todo
     public function detail(int $id): array
     {
         $conditions = [];
@@ -51,14 +52,24 @@ class GoodsServiceImpl implements GoodsService
                 $conditions[] = ['id', 'in', $specsValueIds];
                 $orderBy = ['id', 'asc'];
                 $specsValues = $this->specsValueService->model->list($select, $conditions, $orderBy, false);
+
                 foreach ($specsValues as &$specsValue) {
                     $specsValue['specs_name'] = ($this->specsService->model->find($specsValue['specs_id']))->name;
-                    $sku['specs_value_arr'][$specsValue['specs_name']] = $specsValue['specs_id'];
+                    $key = $specsValue['specs_name'] . ':' . $specsValue['specs_id'];
+                    $value = $specsValue['name'] . ':' . $specsValue['id'];
+                    $sku['sku_arr'][$key] = $value;
                 }
+
+                $sku['sku_arr']['price']      = $sku['price'];
+                $sku['sku_arr']['cost_price'] = $sku['cost_price'];
+                $sku['sku_arr']['stock']      = $sku['stock'];
             }
         }
 
-        return $goodsSku;
+        $goods = resultToArray($goods);
+        $goods['sku'] = $goodsSku;
+
+        dd($goods);
     }
 
     public function list(array $data): array
