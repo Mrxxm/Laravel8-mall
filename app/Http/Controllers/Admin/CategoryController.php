@@ -133,5 +133,4 @@ class CategoryController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
-
 }
