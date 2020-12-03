@@ -112,14 +112,25 @@ class GoodsController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
-    // TODO
     public function update(Request $request)
     {
-        $data = $request->only('id', 'title', 'category_id', 'category_path_id', 'goods_unit', 'keywords', 'stock', 'price', 'cost_price', 'is_show_stock', 'production_time', 'goods_specs_type', 'description', 'goods_specs_data', 'status');
+        $data = $request->only('id', 'title', 'category_id', 'category_path_id', 'goods_unit', 'keywords', 'stock', 'price', 'cost_price', 'is_show_stock', 'production_time', 'description', 'goods_specs_data', 'status', 'sort');
 
         $validator = Validator::make($data, [
-            'id'               => 'required|integer',
-            'status'           => 'integer|in:0,1',
+            'id'                  => 'required|integer',
+            'title'               => 'string',
+            'category_id'         => 'integer',
+            'category_path_id'    => 'string',
+            'goods_unit'          => 'string',
+            'keywords'            => 'string',
+            'is_show_stock'       => 'integer|in:0,1',
+            'production_time'     => 'date',
+            'description'         => 'string',
+            'status'              => 'integer|0,1',
+            'sort'                => 'integer',
+            'stock'               => 'integer',
+            'price'               => '',
+            'cost_price'          => '',
         ]);
 
         if ($validator->fails()) {
