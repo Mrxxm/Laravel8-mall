@@ -86,11 +86,10 @@ class CategoryServiceImpl implements CategoryService
         $category = $this->model->add($fields);
         $id = $category->id;
         // 处理path
+        $upd['path'] = $id;
         if ($fields['pid'] != 0) {
             $parentCategory = CategoryModel::find($fields['pid']);
-            $upd['path'] = $parentCategory->path . ",{$id}";
-        } else {
-            $upd['path'] = $id;
+            $upd['path'] = $parentCategory->path . ",{$upd['path']}";
         }
         $this->model->updateById($id, $upd);
     }
