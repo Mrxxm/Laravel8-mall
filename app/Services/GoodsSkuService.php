@@ -9,5 +9,5 @@ interface GoodsSkuService
     /*
      * 后台
      */
-    public function BatchAdd(array $fields) : void;
+    public function batchAdd(array $fields) : array;
 }
