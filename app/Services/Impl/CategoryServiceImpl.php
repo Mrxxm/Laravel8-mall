@@ -101,6 +101,9 @@ class CategoryServiceImpl implements CategoryService
         if (!$category) {
             throw new \Exception('分类不存在');
         }
+        if ($category->delete_time != 0) {
+            throw new \Exception('分类已删除');
+        }
         unset($fields['id']);
         $this->model->updateById($id, $fields);
     }
@@ -110,6 +113,9 @@ class CategoryServiceImpl implements CategoryService
         $category = $this->model->find($id);
         if (!$category) {
             throw new \Exception('分类不存在');
+        }
+        if ($category->delete_time != 0) {
+            throw new \Exception('分类已删除');
         }
         $this->model->deleteById($id);
     }
