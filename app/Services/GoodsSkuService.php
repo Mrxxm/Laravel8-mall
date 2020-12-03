@@ -6,5 +6,8 @@ namespace App\Services;
 
 interface GoodsSkuService
 {
-    public function add(array $fields) : void;
+    /*
+     * 后台
+     */
+    public function BatchAdd(array $fields) : void;
 }
