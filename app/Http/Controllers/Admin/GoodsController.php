@@ -14,10 +14,11 @@ class GoodsController
 {
     public function list(Request $request)
     {
-        $data = $request->only('keyword');
+        $data = $request->only('keyword', 'category_id');
 
         $validator = Validator::make($data, [
             'keyword'          => 'string',
+            'category_id'      => 'integer',
         ]);
 
         if ($validator->fails()) {
