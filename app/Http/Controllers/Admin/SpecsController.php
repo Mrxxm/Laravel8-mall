@@ -86,7 +86,7 @@ class SpecsController
 
         $validator = Validator::make($data, [
             'id'               => 'required|integer',
-            'status'           => 'integer',
+            'status'           => 'integer|in:0,1',
         ]);
 
         if ($validator->fails()) {
