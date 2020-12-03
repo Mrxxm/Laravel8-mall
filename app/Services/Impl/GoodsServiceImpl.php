@@ -25,7 +25,6 @@ class GoodsServiceImpl implements GoodsService
         $this->specsValueService = new SpecsValueServiceImpl();
     }
 
-    // todo
     public function detail(int $id): array
     {
         $conditions = [];
@@ -38,7 +37,7 @@ class GoodsServiceImpl implements GoodsService
         }
         $goodsId = $goods->id;
 
-        $select = ['*'];
+        $select = ['id', 'goods_id', 'specs_value_ids', 'price', 'cost_price', 'stock', 'status'];
         $conditions = [];
         $conditions[] = ['goods_id', '=', $goodsId];
         $conditions[] = ['delete_time', '=', 0];
@@ -47,7 +46,7 @@ class GoodsServiceImpl implements GoodsService
         if (count($goodsSku)) {
             foreach ($goodsSku as &$sku) {
                 $specsValueIds = explode(',', $sku['specs_value_ids']);
-                $select = ['*'];
+                $select = ['id as specs_value_id', 'specs_id', 'name'];
                 $conditions = [];
                 $conditions[] = ['id', 'in', $specsValueIds];
                 $orderBy = ['id', 'asc'];
@@ -55,21 +54,17 @@ class GoodsServiceImpl implements GoodsService
 
                 foreach ($specsValues as &$specsValue) {
                     $specsValue['specs_name'] = ($this->specsService->model->find($specsValue['specs_id']))->name;
-                    $key = $specsValue['specs_name'] . ':' . $specsValue['specs_id'];
-                    $value = $specsValue['name'] . ':' . $specsValue['id'];
-                    $sku['sku_arr'][$key] = $value;
+                    $key = $specsValue['specs_name'];
+                    $value = $specsValue['name'];
+                    $sku[$key] = $value;
                 }
-
-                $sku['sku_arr']['price']      = $sku['price'];
-                $sku['sku_arr']['cost_price'] = $sku['cost_price'];
-                $sku['sku_arr']['stock']      = $sku['stock'];
             }
         }
 
         $goods = resultToArray($goods);
         $goods['sku'] = $goodsSku;
 
-        dd($goods);
+        return $goods;
     }
 
     public function list(array $data): array
