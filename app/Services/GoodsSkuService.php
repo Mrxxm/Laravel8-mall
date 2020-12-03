@@ -13,7 +13,5 @@ interface GoodsSkuService
 
     public function add(array $fields) : array;
 
-    public function list(array $data) : array ;
-
     public function update(int $id, array $fields) : void;
 }
