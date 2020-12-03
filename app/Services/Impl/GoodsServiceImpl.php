@@ -105,11 +105,11 @@ class GoodsServiceImpl implements GoodsService
         if ($goods->delete_time != 0) {
             throw new \Exception('商品已删除');
         }
-        $goodsId   = $goods->id;
+        $skuId     = $goods->sku_id;
         $specsType = $goods->goods_specs_type;
         if ($specsType == 1) {
             // 统一规格
-            $goodsSku = $this->goodsSkuService->model->find($goodsId);
+            $goodsSku = $this->goodsSkuService->model->find($skuId);
             if (!$goodsSku) {
                 throw new \Exception('商品sku不存在');
             }
@@ -118,14 +118,27 @@ class GoodsServiceImpl implements GoodsService
             }
             // 更新商品表
             $this->model->updateById($id, $fields);
-            $goodsSkuUpd['price']         = $fields['price'] ?? $goodsSku->price;
-            $goodsSkuUpd['cost_price']    = $fields['cost_price'] ?? $goodsSku->cost_price;
-            $goodsSkuUpd['stock']         = $fields['stock'] ?? $goodsSku->stock;
-            // 更新商品sku表
-            $this->goodsSkuService->model->updateById($goodsSku->id, $goodsSkuUpd);
+            $goodsSkuUpd = [];
+            if (isset($fields['price'])) {
+                $goodsSkuUpd['price'] = $fields['price'];
+            }
+            if (isset($fields['cost_price'])) {
+                $goodsSkuUpd['cost_price'] = $fields['cost_price'];
+            }
+            if (isset($fields['stock'])) {
+                $goodsSkuUpd['stock'] = $fields['stock'];
+            }
+            if (!empty($goodsSkuUpd)) {
+                // 更新商品sku表
+                $this->goodsSkuService->model->updateById($skuId, $goodsSkuUpd);
+            }
+
         } else {
             // 多规格
-
+            // 防止修改这三个参数
+            unset($fields['price']);
+            unset($fields['cost_price']);
+            unset($fields['stock']);
             // 更新商品表
             $this->model->updateById($id, $fields);
         }
