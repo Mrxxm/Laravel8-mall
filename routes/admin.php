@@ -37,5 +37,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::post('/goods/add','GoodsController@add');
         Route::post('/goods/update','GoodsController@update');
         Route::post('/goods/delete','GoodsController@delete');
+        // 商品sku管理
+        Route::post('/goodsSku/update','GoodsSkuController@update');
     });
 });
