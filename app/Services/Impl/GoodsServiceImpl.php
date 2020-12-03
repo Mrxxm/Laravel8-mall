@@ -34,7 +34,7 @@ class GoodsServiceImpl implements GoodsService
             $conditions[] = ['category_path_id', 'find_in_set', $categoryId];
         }
         if (!empty($keyword)) {
-            $conditions[] = ['name', 'like', "%{$keyword}%"];
+            $conditions[] = ['title', 'like', "%{$keyword}%"];
         }
 
         $orderBy = array('sort', 'asc');
