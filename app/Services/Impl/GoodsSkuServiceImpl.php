@@ -52,4 +52,17 @@ class GoodsSkuServiceImpl implements GoodsSkuService
 
         return $sku;
     }
+
+    public function update(int $id, array $fields): void
+    {
+        $goodsSku = $this->model->find($id);
+        if (!$goodsSku) {
+            throw new \Exception('商品sku不存在');
+        }
+        if ($goodsSku->delete_time != 0) {
+            throw new \Exception('商品sku已删除');
+        }
+
+        $this->model->updateById($id, $fields);
+    }
 }
