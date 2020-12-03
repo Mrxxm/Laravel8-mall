@@ -82,8 +82,8 @@ class GoodsController
 
         // 验证sku中字段-多规格
         if ($data['goods_specs_type'] == 2) {
-            // 判断是数组并且是二维数组
-            if (!is_array($data['sku']) || count($data['sku'], 1) != 2) {
+            // 判断是数组并且不是一维数组
+            if (!is_array($data['sku']) || (count($data['sku']) == count($data['sku'], 1))) {
                 return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], 'sku格式异常');
             }
             foreach ($data['sku'] as $sku) {
@@ -92,7 +92,6 @@ class GoodsController
                     'price'               => 'required',
                     'cost_price'          => 'required',
                     'stock'               => 'required|integer',
-                    'status'              => 'integer|0,1',
                 ]);
 
                 if ($validator->fails()) {
