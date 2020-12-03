@@ -6,8 +6,14 @@ namespace App\Services;
 
 interface CategoryService
 {
+    /*
+     * 前台
+     */
     public function listAll() : array ;
 
+    /*
+     * 后台
+     */
     public function search(array $data) : array;
 
     public function list(array $data) : array ;
