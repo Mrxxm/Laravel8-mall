@@ -11,12 +11,10 @@ use App\Utils\ArrayUtil;
 class GoodsSkuServiceImpl implements GoodsSkuService
 {
     public $model = null;
-    public $goodsService = null;
 
     public function __construct()
     {
         $this->model = new GoodsSkuModel();
-        $this->goodsService = new GoodsServiceImpl();
     }
 
     public function batchAdd(array $fields): array
@@ -85,6 +83,6 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             'sku_id'      => $skuResult[0]['id'],
         ];
         // 更新商品表
-        $this->goodsService->model->updateById($goodsId, $goodsUpd);
+        (new GoodsServiceImpl())->model->updateById($goodsId, $goodsUpd);
     }
 }
