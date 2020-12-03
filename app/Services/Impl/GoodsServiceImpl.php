@@ -103,6 +103,12 @@ class GoodsServiceImpl implements GoodsService
 
     public function delete(int $id): void
     {
-        // TODO: Implement delete() method.
+        $goods = $this->model->find($id);
+        if (!$goods) {
+            throw new \Exception('商品不存在');
+        }
+        $goodsId = $goods->id;
+        $this->model->deleteById($id);
+        $this->goodsSkuService->model->deleteById($goodsId);
     }
 }
