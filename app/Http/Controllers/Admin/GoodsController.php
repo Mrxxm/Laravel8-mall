@@ -111,6 +111,7 @@ class GoodsController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    // TODO
     public function update(Request $request)
     {
         $data = $request->only('id', 'title', 'category_id', 'category_path_id', 'goods_unit', 'keywords', 'stock', 'price', 'cost_price', 'is_show_stock', 'production_time', 'goods_specs_type', 'description', 'goods_specs_data', 'status');
@@ -135,6 +136,7 @@ class GoodsController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    // TODO
     public function delete(Request $request)
     {
         $data = $request->only('id');
