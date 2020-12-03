@@ -96,6 +96,7 @@ class ArrayUtil
         return $data;
     }
 
+    // 排序(默认：从高到低)
     public static function arrsSortByKey($result, $key, $sort = SORT_DESC)
     {
         if(!is_array($result) || !$key) {
