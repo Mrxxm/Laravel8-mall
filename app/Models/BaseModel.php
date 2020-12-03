@@ -78,6 +78,9 @@ class BaseModel extends Model
                         case 'like':
                             $obj->where($condition[0], $condition[1], $condition[2]);
                             break;
+                        case 'find_in_set':
+                            $obj->whereRaw("FIND_IN_SET({$condition[2]}, {$condition[0]})");
+                            break;
                         default:
                             $obj->where($condition[0], $condition[1], $condition[2]);
                     }
