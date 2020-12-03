@@ -33,6 +33,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         Route::post('/specsValue/update','SpecsValueController@update');
         Route::post('/specsValue/delete','SpecsValueController@delete');
         // 商品管理
+        Route::get('/goods/detail','GoodsController@detail');
         Route::get('/goods/list','GoodsController@list');
         Route::post('/goods/add','GoodsController@add');
         Route::post('/goods/update','GoodsController@update');
