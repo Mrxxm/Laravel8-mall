@@ -149,7 +149,7 @@ class GoodsController
             'is_show_stock'       => 'integer|in:0,1',
             'production_time'     => 'date',
             'description'         => 'string',
-            'status'              => 'integer|0,1',
+            'status'              => 'integer|in:0,1',
             'sort'                => 'integer',
             'stock'               => 'integer',
             'price'               => '',
