@@ -15,6 +15,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Admin'], function () {
         // 前台用户管理
         Route::get('/user/list','UserController@list');
         // 分类管理
+        Route::get('/category/search','CategoryController@search');
         Route::get('/category/list','CategoryController@list');
         Route::post('/category/add','CategoryController@add');
         Route::post('/category/update','CategoryController@update');
