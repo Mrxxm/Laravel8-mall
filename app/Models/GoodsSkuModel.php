@@ -15,6 +15,12 @@ class GoodsSkuModel extends BaseModel
 
     const UPDATED_AT = 'update_time';
 
+    public function updateByGoodsId(int $goodsId, array $fields) : void
+    {
+        return self::where('goods_id', $goodsId)
+            ->update($fields);
+    }
+
     public function deleteByGoodsId(int $goodsId)
     {
         return self::where('goods_id', $goodsId)
