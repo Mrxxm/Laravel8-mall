@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\DB;
 
 class GoodsServiceImpl implements GoodsService
 {
-    protected $model = null;
+    public $model = null;
     protected $goodsSkuService = null;
     protected $categoryService = null;
 
