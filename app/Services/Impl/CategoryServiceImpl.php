@@ -45,6 +45,7 @@ class CategoryServiceImpl implements CategoryService
 
         $conditions = [];
         $conditions[] = ['delete_time', '=', 0];
+        $conditions[] = ['status', '=', 1];
         $conditions[] = ['pid', '=', $pid];
 
         $orderBy = array('sort', 'asc');
