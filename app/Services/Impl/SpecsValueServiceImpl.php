@@ -10,7 +10,7 @@ use App\Services\SpecsService;
 
 class SpecsValueServiceImpl implements SpecsService
 {
-    protected $model = null;
+    public $model = null;
     protected $specsService = null;
 
     public function __construct()
