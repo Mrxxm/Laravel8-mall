@@ -103,4 +103,14 @@ class Redis
         return $this->redis->hLen($key);
     }
 
+    public function hGetAll($key)
+    {
+        return $this->redis->hGetAll($key);
+    }
+
+    public function hMGet($key, $hashKeys)
+    {
+        return $this->redis->hMGet($key, $hashKeys);
+    }
+
 }
