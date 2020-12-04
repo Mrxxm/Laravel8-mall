@@ -93,4 +93,9 @@ class Redis
         $this->redis->hSet($key, $hashKey, $value);
     }
 
+    public function hDel($key, $hashKey1, ...$otherHashKeys)
+    {
+        $this->redis->hDel($key, $hashKey1, ...$otherHashKeys);
+    }
+
 }
