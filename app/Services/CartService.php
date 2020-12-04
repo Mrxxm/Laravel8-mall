@@ -13,7 +13,7 @@ interface CartService
 
     public function add(array $fields) : void;
 
-    public function update(int $id, array $fields) : void;
+    public function update(int $skuId, array $fields) : void;
 
-    public function delete(string $ids) : void;
+    public function delete(string $skuIds) : void;
 }
