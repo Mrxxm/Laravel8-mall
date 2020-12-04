@@ -17,7 +17,7 @@ class GoodsSkuModel extends BaseModel
 
     public function goods()
     {
-        return $this->hasOne('GoodsModel', 'id', 'goods_id');
+        return $this->hasOne('App\Models\GoodsModel', 'id', 'goods_id');
     }
 
     public function updateByGoodsId(int $goodsId, array $fields)
