@@ -9,7 +9,7 @@ interface GoodsService
     /*
      * 前台
      */
-    public function detailBySkuId(int $skuId) : array;
+
     /*
      * 后台
      */
