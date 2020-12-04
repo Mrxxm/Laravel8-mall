@@ -39,9 +39,13 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         $skies = $this->model->list($select, $conditions, $orderBy, false);
         $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
 
-        $sku = [];
-        $sku = (new SpecsValueServiceImpl())->handleGoodsSkies($svIdsToSkuId, '');
-        dd($sku);
+        // 商品规格 1统一 2多规格
+        if($skuWithGoods['goods']['goods_specs_type'] == 1) {
+            $sku = [];
+        } else {
+            $sku = (new SpecsValueServiceImpl())->handleGoodsSkies($svIdsToSkuId, '');
+        }
+
         $result = [
             "title"       => $skuWithGoods['goods']['title'],
             "price"       => $skuWithGoods['price'],
@@ -49,7 +53,7 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             "sales_count" => 0,
             "stock"       => $skuWithGoods['stock'],
             "gids"        => $svIdsToSkuId,
-            "sku"         => '',
+            "sku"         => $sku,
             "detail" => [
                 "d1" => [
                 ],
