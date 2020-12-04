@@ -19,5 +19,5 @@ interface SpecsValueService
 
     public function delete(int $id) : void;
 
-    public function handleGoodsSkies(array $gIds, array $flagValue) : array;
+    public function handleGoodsSkies(array $gIds, string $flagValue) : array;
 }
