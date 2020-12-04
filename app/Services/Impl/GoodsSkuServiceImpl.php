@@ -68,7 +68,7 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             ],
         ];
 
-        Redis::getInstance()->incr('Laravel8:goods_pv');
+        Redis::getInstance()->incr('Laravel8:goods_' . $skuId . '_pv');
 
         return $result;
     }
