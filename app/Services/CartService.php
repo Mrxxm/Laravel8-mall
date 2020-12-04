@@ -15,5 +15,5 @@ interface CartService
 
     public function update(int $id, array $fields) : void;
 
-    public function delete(int $ids) : void;
+    public function delete(string $ids) : void;
 }
