@@ -43,7 +43,13 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         if($skuWithGoods['goods']['goods_specs_type'] == 1) {
             $sku = [];
         } else {
-            $sku = (new SpecsValueServiceImpl())->handleGoodsSkies($svIdsToSkuId, '');
+            $flagValue = '';
+            foreach ($svIdsToSkuId as $key => $skuIdValue) {
+                if ($skuIdValue == $skuId) {
+                    $flagValue = $key;
+                }
+            }
+            $sku = (new SpecsValueServiceImpl())->handleGoodsSkies($svIdsToSkuId, $flagValue);
         }
 
         $result = [
