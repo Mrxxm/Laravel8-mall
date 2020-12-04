@@ -13,7 +13,7 @@ class CartController
 {
     public function list(Request $request)
     {
-        $data = $request->only('');
+        $data = $request->only('sku_ids');
 
         $validator = Validator::make($data, [
         ]);
