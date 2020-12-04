@@ -21,6 +21,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
     // 分类
     Route::get('v1/category/listAll','CategoryController@listAll');
+    // 商品
+    Route::get('v1/goods/detail','GoodsController@detail');
 
     Route::group(['middleware' => ['checkToken']], function () {
         Route::get('v1/user/getUser','UserController@getUser');
