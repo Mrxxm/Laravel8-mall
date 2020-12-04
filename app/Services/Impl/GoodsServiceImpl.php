@@ -25,6 +25,7 @@ class GoodsServiceImpl implements GoodsService
         $this->specsValueService = new SpecsValueServiceImpl();
     }
 
+    // todo 重构
     public function detail(int $id): array
     {
         $conditions = [];
@@ -42,27 +43,18 @@ class GoodsServiceImpl implements GoodsService
         $conditions[] = ['goods_id', '=', $goodsId];
         $conditions[] = ['delete_time', '=', 0];
         $orderBy = ['id', 'asc'];
-        $goodsSku = $this->goodsSkuService->model->list($select, $conditions, $orderBy, false);
-        if (count($goodsSku)) {
-            foreach ($goodsSku as &$sku) {
-                $specsValueIds = explode(',', $sku['specs_value_ids']);
-                $select = ['id as specs_value_id', 'specs_id', 'name'];
-                $conditions = [];
-                $conditions[] = ['id', 'in', $specsValueIds];
-                $orderBy = ['id', 'asc'];
-                $specsValues = $this->specsValueService->model->list($select, $conditions, $orderBy, false);
+        $skies = $this->goodsSkuService->model->list($select, $conditions, $orderBy, false);
 
-                foreach ($specsValues as &$specsValue) {
-                    $specsValue['specs_name'] = ($this->specsService->model->find($specsValue['specs_id']))->name;
-                    $key = $specsValue['specs_name'];
-                    $value = $specsValue['name'];
-                    $sku[$key] = $value;
-                }
+        $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
+        $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
+
+        if (count($skies)) {
+            foreach ($skies as &$sku) {
+                $sku['specs'] = $specsValues[$sku['sku_id']];
             }
         }
-
         $goods = resultToArray($goods);
-        $goods['sku'] = $goodsSku;
+        $goods['sku'] = $skies;
 
         return $goods;
     }
