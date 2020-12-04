@@ -33,14 +33,18 @@ class CartServiceImpl implements CartService
             "create_time" => time(),
         ];
 
-        $key = 'cart_' . $userId;
-        $get = (Redis::getInstance())->hGet($key, $skuId);
-        if ($get) {
-            $get = json_decode($get, true);
-            $data['num'] += $get['num'];
-        }
+        try {
+            $key = 'cart_' . $userId;
+            $get = (Redis::getInstance())->hGet($key, $skuId);
+            if ($get) {
+                $get = json_decode($get, true);
+                $data['num'] += $get['num'];
+            }
 
-        $res = (Redis::getInstance())->hSet($key, $skuId, json_encode($data));
+            $res = (Redis::getInstance())->hSet($key, $skuId, json_encode($data));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     public function update(int $id, array $fields): void
@@ -48,9 +52,19 @@ class CartServiceImpl implements CartService
         // TODO: Implement update() method.
     }
 
-    public function delete(int $id): void
+    public function delete(string $ids): void
     {
-        // TODO: Implement delete() method.
+        if(!is_array($ids)) {
+            $ids = explode(",", $ids);
+        }
+        $userId = request('uId');
+        $key = 'cart_' . $userId;
+        try {
+            // ... 是PHP提供一个特性 可变参数
+            $res = (Redis::getInstance())->hDel($key, ...$ids);
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
     public function list(array $data): array
