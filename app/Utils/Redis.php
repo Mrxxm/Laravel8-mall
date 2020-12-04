@@ -42,12 +42,12 @@ class Redis
 
     public function del($key)
     {
-        $this->redis->del($key);
+        return $this->redis->del($key);
     }
 
     public function incr($key)
     {
-        $this->redis->incr($key);
+        return $this->redis->incr($key);
     }
 
     /**
@@ -63,7 +63,7 @@ class Redis
      */
     public function hGet($key, $hashKey)
     {
-        $this->redis->hGet($key, $hashKey);
+        return $this->redis->hGet($key, $hashKey);
     }
 
     /**
@@ -90,12 +90,12 @@ class Redis
      */
     public function hSet($key, $hashKey, $value)
     {
-        $this->redis->hSet($key, $hashKey, $value);
+        return $this->redis->hSet($key, $hashKey, $value);
     }
 
     public function hDel($key, $hashKey1, ...$otherHashKeys)
     {
-        $this->redis->hDel($key, $hashKey1, ...$otherHashKeys);
+        return $this->redis->hDel($key, $hashKey1, ...$otherHashKeys);
     }
 
 }
