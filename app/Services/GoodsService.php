@@ -7,9 +7,13 @@ namespace App\Services;
 interface GoodsService
 {
     /*
+     * 前台
+     */
+    public function detailBySkuId(int $skuId) : array;
+    /*
      * 后台
      */
-    public function detail(int $id) : array ;
+    public function detailByGoodsId(int $goodsId) : array ;
 
     public function list(array $data) : array ;
 
