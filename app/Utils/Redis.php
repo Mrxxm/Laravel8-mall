@@ -12,7 +12,8 @@ class Redis
     private function __construct()
     {
         $this->redis =  new \Redis();
-        $this->redis ->connect('127.0.0.1');
+        $this->redis->connect('127.0.0.1');
+        $this->redis->select(8);
     }
     public static function getInstance()
     {
