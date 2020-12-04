@@ -7,6 +7,7 @@ namespace App\Services\Impl;
 use App\Models\GoodsSkuModel;
 use App\Services\GoodsSkuService;
 use App\Utils\ArrayUtil;
+use App\Utils\Redis;
 
 class GoodsSkuServiceImpl implements GoodsSkuService
 {
@@ -66,6 +67,8 @@ class GoodsSkuServiceImpl implements GoodsSkuService
                 "d2" => ''
             ],
         ];
+
+        Redis::getInstance()->incr('Laravel8:goods_pv');
 
         return $result;
     }
