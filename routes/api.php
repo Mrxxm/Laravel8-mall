@@ -18,12 +18,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::any('v1/demo/index','DemoController@index');
     Route::get('v1/login/getToken','LoginController@getToken');
     Route::get('v1/login/verifyToken','LoginController@verifyToken');
-
     // 分类
     Route::get('v1/category/listAll','CategoryController@listAll');
     // 商品
     Route::get('v1/goods/detail','GoodsController@detail');
-
 
     // 秒杀
     Route::get('v1/secKill/sharedLock','SecKillController@sharedLock');
@@ -33,11 +31,10 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::group(['middleware' => ['checkToken']], function () {
         Route::get('v1/user/getUser','UserController@getUser');
         Route::get('v1/user/updateUser','UserController@updateUser');
-
         // 购物车
-        Route::get('v1/cart/add','CartController@add');
-        Route::get('v1/cart/update','CartController@update');
-        Route::get('v1/cart/delete','CartController@delete');
+        Route::post('v1/cart/add','CartController@add');
+        Route::post('v1/cart/update','CartController@update');
+        Route::post('v1/cart/delete','CartController@delete');
         Route::get('v1/cart/list','CartController@list');
     });
 });
