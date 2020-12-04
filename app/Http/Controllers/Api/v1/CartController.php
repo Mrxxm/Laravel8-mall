@@ -40,7 +40,7 @@ class CartController
         $data = $request->only('ids');
 
         $validator = Validator::make($data, [
-            'ids'              => 'required|integer',
+            'ids'              => 'required|string',
         ]);
 
         if ($validator->fails()) {
