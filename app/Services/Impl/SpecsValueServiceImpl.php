@@ -102,7 +102,7 @@ class SpecsValueServiceImpl implements SpecsValueService
         $this->model->deleteById($id);
     }
 
-    public function handleGoodsSkies(array $gIds, string $flagValue): array
+    public function handleGoodsSkies(array $gIds, string $flagValue = ''): array
     {
         $specsValueKeys = array_keys($gIds);
         foreach($specsValueKeys as $specsValueKey) {
