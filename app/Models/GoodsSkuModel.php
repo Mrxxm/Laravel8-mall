@@ -15,6 +15,11 @@ class GoodsSkuModel extends BaseModel
 
     const UPDATED_AT = 'update_time';
 
+    public function goods()
+    {
+        return $this->hasOne('GoodsModel', 'id', 'goods_id');
+    }
+
     public function updateByGoodsId(int $goodsId, array $fields)
     {
         return self::where('goods_id', $goodsId)
