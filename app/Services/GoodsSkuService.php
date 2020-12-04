@@ -7,6 +7,10 @@ namespace App\Services;
 interface GoodsSkuService
 {
     /*
+     * 前台
+     */
+    public function detailBySkuId(int $skuId): array;
+    /*
      * 后台
      */
     public function batchAdd(array $fields) : array;
