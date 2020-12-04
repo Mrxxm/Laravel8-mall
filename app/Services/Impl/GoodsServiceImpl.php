@@ -25,7 +25,6 @@ class GoodsServiceImpl implements GoodsService
         $this->specsValueService = new SpecsValueServiceImpl();
     }
 
-    // todo 重构
     public function detail(int $id): array
     {
         $conditions = [];
