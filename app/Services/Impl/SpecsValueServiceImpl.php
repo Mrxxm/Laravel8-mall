@@ -102,6 +102,9 @@ class SpecsValueServiceImpl implements SpecsValueService
         $this->model->deleteById($id);
     }
 
+    /*
+     * 处理规格和规格属性用规格属性id指向
+     */
     public function handleSWithSVBySVIds(array $specsValueIds) : array
     {
         $select = ['id as specs_value_id', 'specs_id', 'name'];
@@ -164,11 +167,18 @@ class SpecsValueServiceImpl implements SpecsValueService
             // $key [1,7]
             // 处理sku默认文案
             $skuStr = [];
-            foreach ($key as $spec) {
-                $skuStr[] = $sWithSv[$spec]['specs_name'].":".$sWithSv[$spec]['specs_value_name'];
+            foreach ($key as $svId) {
+                $skuStr[] = $sWithSv[$svId]['specs_name'].":".$sWithSv[$svId]['specs_value_name'];
             }
             $res[$skuId] = implode(" ", $skuStr);
         }
+
+        /**
+         * array:2 [
+            12 => "颜色:白色 鞋码:38"
+            13 => "颜色:绿色 鞋码:38"
+            ]
+         */
 
         return $res;
     }
@@ -187,7 +197,7 @@ class SpecsValueServiceImpl implements SpecsValueService
             $specsValueKey = explode(",", $specsValueKey);
             // [1, 7]
             foreach($specsValueKey as $k => $v) {
-                $new[$k][] = $v; // 0 => [1,2,1,2] 1 => [7,7,8,8]
+                $svIdsSeparateBySequence[$k][] = $v; // 0 => [1,2,1,2] 1 => [7,7,8,8]
                 $specsValueIds[] = $v; // 0 => [1,7,2,7,1,8,2,8]
             }
         }
@@ -197,19 +207,19 @@ class SpecsValueServiceImpl implements SpecsValueService
 
         $flagValue = explode(",", $flagValue);
         $result = [];
-        foreach($new as $key => $newValue) {
-            $newValue = array_unique($newValue);
+        foreach($svIdsSeparateBySequence as $key => $svIds) {
+            $svIds = array_unique($svIds);
             $list = [];
-            foreach ($newValue as $vv) {
+            foreach ($svIds as $svId) {
                 $list[] = [
-                    "id" => $vv,
-                    "name" => $sWithSv[$vv]['specs_value_name'],
-                    "flag" => in_array($vv, $flagValue) ? 1 : 0,
+                    "id" => $svId,
+                    "name" => $sWithSv[$svId]['specs_value_name'],
+                    "flag" => in_array($svId, $flagValue) ? 1 : 0,
                 ];
             }
 
             $result[$key] = [
-                "name" => $sWithSv[$newValue[0]]['specs_name'],
+                "name" => $sWithSv[$svIds[0]]['specs_name'],
                 "list" => $list,
             ];
         }
