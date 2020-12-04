@@ -98,4 +98,9 @@ class Redis
         return $this->redis->hDel($key, $hashKey1, ...$otherHashKeys);
     }
 
+    public function hLen($key)
+    {
+        return $this->redis->hLen($key);
+    }
+
 }
