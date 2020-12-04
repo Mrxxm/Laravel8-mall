@@ -27,7 +27,7 @@ class GoodsController
         $service = new GoodsServiceImpl();
 
         try {
-            $result = $service->detail($data['id']);
+            $result = $service->detailByGoodsId($data['id']);
         } catch (\Exception $exception) {
             return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
         }
