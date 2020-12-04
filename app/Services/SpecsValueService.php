@@ -18,4 +18,6 @@ interface SpecsValueService
     public function update(int $id, array $fields) : void;
 
     public function delete(int $id) : void;
+
+    public function handleGoodsSkies(array $gIds, array $flagValue) : array;
 }
