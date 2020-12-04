@@ -34,4 +34,27 @@ class CartController
 
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
+
+    public function delete(Request $request)
+    {
+        $data = $request->only('ids');
+
+        $validator = Validator::make($data, [
+            'ids'              => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new CartServiceImpl();
+
+        try {
+            $service->delete($data['ids']);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
+    }
 }
