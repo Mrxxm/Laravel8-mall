@@ -17,6 +17,49 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         $this->model = new GoodsSkuModel();
     }
 
+    // sku_id => sku表 -> goods_id => goods表 -> goods_id => sku表
+    public function detailBySkuId(int $skuId): array
+    {
+        // with()查询：实际执行了两条sql语句
+        // withJoin()查询：才是连表查询
+        $conditions = [];
+        $conditions[] = ['status', '=', 1];
+        $conditions[] = ['delete_time', '=', 0];
+        $skuWithGoods = $this->model->with('goods')->where($conditions)->find($skuId);
+        $skuWithGoods = resultToArray($skuWithGoods);
+        if (!$skuWithGoods || !$skuWithGoods['goods']) {
+            throw new \Exception('商品已下架');
+        }
+        $select = ['id as sku_id', 'goods_id', 'specs_value_ids', 'price', 'cost_price', 'stock'];
+        $conditions = [];
+        $conditions[] = ['goods_id', '=', $skuWithGoods['goods_id']];
+        $conditions[] = ['status', '=', 1];
+        $conditions[] = ['delete_time', '=', 0];
+        $orderBy = ['id', 'asc'];
+        $skies = $this->model->list($select, $conditions, $orderBy, false);
+        $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
+
+        $sku = [];
+        $sku = (new SpecsValueServiceImpl())->handleGoodsSkies($svIdsToSkuId, '');
+        dd($sku);
+        $result = [
+            "title"       => $skuWithGoods['goods']['title'],
+            "price"       => $skuWithGoods['price'],
+            "cost_price"  => $skuWithGoods['cost_price'],
+            "sales_count" => 0,
+            "stock"       => $skuWithGoods['stock'],
+            "gids"        => $svIdsToSkuId,
+            "sku"         => '',
+            "detail" => [
+                "d1" => [
+                ],
+                "d2" => ''
+            ],
+        ];
+
+        return $result;
+    }
+
     public function batchAdd(array $fields): array
     {
         $goodsId = $fields['goods_id'];
