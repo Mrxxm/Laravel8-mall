@@ -102,6 +102,80 @@ class SpecsValueServiceImpl implements SpecsValueService
         $this->model->deleteById($id);
     }
 
+    public function handleSWithSVBySVIds(array $specsValueIds) : array
+    {
+        $select = ['id as specs_value_id', 'specs_id', 'name'];
+        $conditions = [];
+        $conditions[] = ['id', 'in', $specsValueIds];
+        $orderBy = ['id', 'desc'];
+        $specsValues = $this->model->list($select, $conditions, $orderBy, false);
+
+        $select = ['id', 'name'];
+        $conditions = [];
+        $conditions[] = ['status', '=', 1];
+        $conditions[] = ['delete_time', '=', 0];
+        $orderBy = ['id', 'desc'];
+        $specs = $this->specsService->model->list($select, $conditions, $orderBy, false);
+        $specs = array_column($specs, 'name', 'id');
+
+        $res = [];
+        foreach ($specsValues as $specsValue) {
+            $res[$specsValue['specs_value_id']] = [
+                'specs_value_name' => $specsValue['name'],
+                'specs_name' => $specs[$specsValue['specs_id']] ?? '',
+            ];
+        }
+
+        /**
+         * $res
+         * array:3 [
+            14 => array:2 [
+                "specs_value_name" => "38"
+                "specs_name" => "鞋码"
+                ]
+            5 => array:2 [
+                "specs_value_name" => "绿色"
+                "specs_name" => "颜色"
+                ]
+            4 => array:2 [
+                "specs_value_name" => "白色"
+                "specs_name" => "颜色"
+                ]
+            ]
+         */
+        return $res;
+    }
+
+    /*
+     * 购物车列表使用
+     */
+    public function handleSpecsValue(array $gIds) : array
+    {
+        $svKeys = array_keys($gIds);
+        $specsValueIds = implode(",", $svKeys);
+        $specsValueIds = array_unique(explode(",", $specsValueIds));
+
+        $sWithSv = $this->handleSWithSVBySVIds($specsValueIds);
+
+        $res = [];
+        foreach ($gIds as $key => $skuId) {
+            // 1,7
+            $key = explode(",", $key);
+            // $key [1,7]
+            // 处理sku默认文案
+            $skuStr = [];
+            foreach ($key as $spec) {
+                $skuStr[] = $sWithSv[$spec]['specs_name'].":".$sWithSv[$spec]['specs_value_name'];
+            }
+            $res[$skuId] = implode(" ", $skuStr);
+        }
+
+        return $res;
+    }
+
+    /*
+     * 商品详情使用
+     */
     public function handleGoodsSkies(array $gIds, string $flagValue = ''): array
     {
         $specsValueKeys = array_keys($gIds);
@@ -118,43 +192,8 @@ class SpecsValueServiceImpl implements SpecsValueService
             }
         }
         $specsValueIds = array_unique($specsValueIds);
-        $select = ['id as specs_value_id', 'specs_id', 'name'];
-        $conditions = [];
-        $conditions[] = ['id', 'in', $specsValueIds];
-        $orderBy = ['id', 'desc'];
-        $specsValues = $this->model->list($select, $conditions, $orderBy, false);
-        $select = ['id', 'name'];
-        $conditions = [];
-        $conditions[] = ['status', '=', 1];
-        $conditions[] = ['delete_time', '=', 0];
-        $orderBy = ['id', 'desc'];
-        $specs = $this->specsService->model->list($select, $conditions, $orderBy, false);
-        $specs = array_column($specs, 'name', 'id');
 
-        /**
-         * $newSpecsWithValue
-         * array:3 [
-            14 => array:2 [
-                "specs_value_name" => "38"
-                "specs_name" => "鞋码"
-            ]
-            5 => array:2 [
-                "specs_value_name" => "绿色"
-                "specs_name" => "颜色"
-            ]
-            4 => array:2 [
-                "specs_value_name" => "白色"
-                "specs_name" => "颜色"
-            ]
-        ]
-         */
-        $newSpecsWithValue = [];
-        foreach ($specsValues as $specsValue) {
-            $newSpecsWithValue[$specsValue['specs_value_id']] = [
-                'specs_value_name' => $specsValue['name'],
-                'specs_name' => $specs[$specsValue['specs_id']] ?? '',
-            ];
-        }
+        $sWithSv = $this->handleSWithSVBySVIds($specsValueIds);
 
         $flagValue = explode(",", $flagValue);
         $result = [];
@@ -164,13 +203,13 @@ class SpecsValueServiceImpl implements SpecsValueService
             foreach ($newValue as $vv) {
                 $list[] = [
                     "id" => $vv,
-                    "name" => $newSpecsWithValue[$vv]['specs_value_name'],
+                    "name" => $sWithSv[$vv]['specs_value_name'],
                     "flag" => in_array($vv, $flagValue) ? 1 : 0,
                 ];
             }
 
             $result[$key] = [
-                "name" => $newSpecsWithValue[$newValue[0]]['specs_name'],
+                "name" => $sWithSv[$newValue[0]]['specs_name'],
                 "list" => $list,
             ];
         }
