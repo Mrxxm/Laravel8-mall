@@ -25,7 +25,7 @@ class GoodsServiceImpl implements GoodsService
         $this->specsValueService = new SpecsValueServiceImpl();
     }
 
-    public function detail(int $id): array
+    public function detailByGoodsId(int $id): array
     {
         $conditions = [];
         $conditions[] = ['id', '=', $id];
