@@ -47,15 +47,29 @@ class CartServiceImpl implements CartService
         }
     }
 
-    public function update(int $id, array $fields): void
+    public function update(int $skuId, array $fields): void
     {
-        // TODO: Implement update() method.
+        $userId = request('uId');
+        $key = 'cart_' . $userId;
+
+        try {
+            $get = (Redis::getInstance())->hGet($key, $skuId);
+            if ($get) {
+                $get = json_decode($get, true);
+                $get['num'] = $fields['num'];
+            } else {
+                throw new \Exception("不存在该购物车的商品，您更新没有任何意义");
+            }
+            $res = (Redis::getInstance())->hSet($key, $skuId, json_encode($get));
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 
-    public function delete(string $ids): void
+    public function delete(string $skuIds): void
     {
-        if(!is_array($ids)) {
-            $ids = explode(",", $ids);
+        if(!is_array($skuIds)) {
+            $ids = explode(",", $skuIds);
         }
         $userId = request('uId');
         $key = 'cart_' . $userId;
@@ -70,5 +84,19 @@ class CartServiceImpl implements CartService
     public function list(array $data): array
     {
         // TODO: Implement list() method.
+    }
+
+    /**
+     * 获取购物车数据
+     */
+    public function getCount() {
+        $userId = request('uId');
+        $key = 'cart_' . $userId;
+        try {
+            $count = (Redis::getInstance())->hLen($key);
+        }catch (\Exception $e) {
+            return 0;
+        }
+        return intval($count);
     }
 }
