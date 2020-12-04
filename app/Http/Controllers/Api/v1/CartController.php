@@ -16,6 +16,7 @@ class CartController
         $data = $request->only('sku_ids');
 
         $validator = Validator::make($data, [
+            'sku_ids'            => 'string',
         ]);
 
         if ($validator->fails()) {
