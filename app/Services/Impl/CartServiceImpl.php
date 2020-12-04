@@ -87,7 +87,7 @@ class CartServiceImpl implements CartService
         $userId = request('uId');
         $key = 'cart_' . $userId;
 
-        $ids = $data['ids'] ?? '';
+        $ids = $data['sku_ids'] ?? '';
         try {
             if ($ids) {
                 $ids = explode(",", $ids);
