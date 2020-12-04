@@ -19,11 +19,13 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::get('v1/login/getToken','LoginController@getToken');
     Route::get('v1/login/verifyToken','LoginController@verifyToken');
 
+    // 分类
+    Route::get('v1/category/listAll','CategoryController@listAll');
+
     Route::group(['middleware' => ['checkToken']], function () {
         Route::get('v1/user/getUser','UserController@getUser');
         Route::get('v1/user/updateUser','UserController@updateUser');
-        // 分类
-        Route::get('v1/category/listAll','CategoryController@listAll');
+
     });
 
     // 秒杀
