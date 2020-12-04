@@ -37,7 +37,7 @@ class GoodsServiceImpl implements GoodsService
         }
         $goodsId = $goods->id;
 
-        $select = ['id', 'goods_id', 'specs_value_ids', 'price', 'cost_price', 'stock', 'status'];
+        $select = ['id as sku_id', 'goods_id', 'specs_value_ids', 'price', 'cost_price', 'stock', 'status'];
         $conditions = [];
         $conditions[] = ['goods_id', '=', $goodsId];
         $conditions[] = ['delete_time', '=', 0];
