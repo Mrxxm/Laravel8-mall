@@ -45,4 +45,9 @@ class Redis
         $this->redis->del($key);
     }
 
+    public function incr($key)
+    {
+        $this->redis->incr($key);
+    }
+
 }
