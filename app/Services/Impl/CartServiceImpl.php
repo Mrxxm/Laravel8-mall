@@ -5,6 +5,7 @@ namespace App\Services\Impl;
 
 
 use App\Services\CartService;
+use App\Utils\ArrayUtil;
 use App\Utils\Redis;
 
 class CartServiceImpl implements CartService
@@ -83,7 +84,58 @@ class CartServiceImpl implements CartService
 
     public function list(array $data): array
     {
-        // TODO: Implement list() method.
+        $userId = request('uId');
+        $key = 'cart_' . $userId;
+
+        $ids = $data['ids'] ?? '';
+        try {
+            if ($ids) {
+                $ids = explode(",", $ids);
+                $redisCart = (Redis::getInstance())->hMget($key, $ids);
+                if(in_array(false, array_values($redisCart))) {
+                    return [];
+                }
+            } else {
+                $redisCart = (Redis::getInstance())->hGetAll($key);
+            }
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
+        if(!$redisCart) {
+            return [];
+        }
+
+        $result = [];
+        $skuIds = array_keys($redisCart);
+
+        $select = ['id as sku_id', 'specs_value_ids', 'goods_id', 'price', 'cost_price', 'stock'];
+        $conditions = [];
+        $conditions[] = ['id', 'in', $skuIds];
+        $orderBy = ['id', 'asc'];
+        $skies = (new GoodsSkuServiceImpl())->model->list($select, $conditions, $orderBy, false);
+
+        $skuIdStock = array_column($skies, "stock", "sku_id");
+        $skuIdPrice = array_column($skies, "price", "sku_id");
+        $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
+        $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
+
+        foreach ($redisCart as $skuId => $cartInfo) {
+            $cartInfo = json_decode($cartInfo, true);
+            if ($ids && isset($stocks[$skuId]) && $skuIdStock[$skuId] < $cartInfo['num']) {
+                throw new \Exception($cartInfo['title']."的商品库存不足");
+            }
+            $price = $skuIdPrice[$skuId] ?? 0;
+            $cartInfo['sku_id']      = $skuId;
+            $cartInfo['price']       = $price;
+            $cartInfo['total_price'] = $price * $cartInfo['num'];
+            $cartInfo['sku']         = $specsValues[$skuId] ?? "暂无规则";
+            $result[] = $cartInfo;
+        }
+        if (!empty($result)) {
+            $result = ArrayUtil::arrsSortByKey($result, "create_time");
+        }
+
+        return $result;
     }
 
     /**
