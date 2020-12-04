@@ -13,7 +13,7 @@ interface GoodsService
     /*
      * 后台
      */
-    public function detailByGoodsId(int $goodsId) : array ;
+    public function detail(int $id) : array ;
 
     public function list(array $data) : array ;
 
