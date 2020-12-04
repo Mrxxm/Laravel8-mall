@@ -23,17 +23,22 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
     Route::get('v1/category/listAll','CategoryController@listAll');
     // 商品
     Route::get('v1/goods/detail','GoodsController@detail');
+    // 购物车
+    Route::get('v1/cart/add','CartController@add');
+    Route::get('v1/cart/update','CartController@update');
+    Route::get('v1/cart/delete','CartController@delete');
+    Route::get('v1/cart/list','CartController@list');
+
+    // 秒杀
+    Route::get('v1/secKill/sharedLock','SecKillController@sharedLock');
+    Route::get('v1/secKill/exclusiveLock','SecKillController@exclusiveLock');
+    Route::get('v1/secKill/redisLock','SecKillController@redisLock');
 
     Route::group(['middleware' => ['checkToken']], function () {
         Route::get('v1/user/getUser','UserController@getUser');
         Route::get('v1/user/updateUser','UserController@updateUser');
 
     });
-
-    // 秒杀
-    Route::get('v1/secKill/sharedLock','SecKillController@sharedLock');
-    Route::get('v1/secKill/exclusiveLock','SecKillController@exclusiveLock');
-    Route::get('v1/secKill/redisLock','SecKillController@redisLock');
 });
 
 
