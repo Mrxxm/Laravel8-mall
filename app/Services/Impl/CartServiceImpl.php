@@ -82,6 +82,7 @@ class CartServiceImpl implements CartService
         }
     }
 
+    // 购物车列表(订单确认页数据)
     public function list(array $data): array
     {
         $userId = request('uId');
@@ -113,7 +114,9 @@ class CartServiceImpl implements CartService
         $conditions[] = ['id', 'in', $skuIds];
         $orderBy = ['id', 'asc'];
         $skies = (new GoodsSkuServiceImpl())->model->list($select, $conditions, $orderBy, false);
-
+        if (!$skies) {
+            throw new \Exception('商品不存在');
+        }
         $skuIdStock = array_column($skies, "stock", "sku_id");
         $skuIdPrice = array_column($skies, "price", "sku_id");
         $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
@@ -134,6 +137,45 @@ class CartServiceImpl implements CartService
         if (!empty($result)) {
             $result = ArrayUtil::arrsSortByKey($result, "create_time");
         }
+
+        return $result;
+    }
+
+    // 立即购买(订单确认页数据)
+    public function single(array $data): array
+    {
+        $skuId = $data['sku_id'];
+        $num = $data['num'] ?? 1;
+
+        $select = ['id as sku_id', 'specs_value_ids', 'goods_id', 'price', 'cost_price', 'stock'];
+        $conditions = [];
+        $conditions[] = ['id', 'in', [$skuId]];
+        $orderBy = ['id', 'asc'];
+        $skies = (new GoodsSkuServiceImpl())->model->list($select, $conditions, $orderBy, false);
+        if (!$skies) {
+            throw new \Exception('商品不存在');
+        }
+        $goods = (new GoodsServiceImpl())->model->select('title')->find($skies[0]['goods_id']);
+        $goods = resultToArray($goods);
+        $skuIdStock = array_column($skies, "stock", "sku_id");
+        $skuIdPrice = array_column($skies, "price", "sku_id");
+        $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
+        $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
+
+        if (isset($stocks[$skuId]) && $skuIdStock[$skuId] < $num) {
+            throw new \Exception($goods['title']."的商品库存不足");
+        }
+        $price = $skuIdPrice[$skuId] ?? 0;
+        $cartInfo = [];
+        $cartInfo['title']       = $goods['title'];
+        $cartInfo['num']         = $num;
+        $cartInfo['goods_id']    = $skies[0]['goods_id'];
+        $cartInfo['create_time'] = time();
+        $cartInfo['sku_id']      = $skuId;
+        $cartInfo['price']       = $price;
+        $cartInfo['total_price'] = $price * $cartInfo['num'];
+        $cartInfo['sku']         = $specsValues[$skuId] ?? "暂无规则";
+        $result[] = $cartInfo;
 
         return $result;
     }
