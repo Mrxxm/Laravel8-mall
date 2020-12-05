@@ -44,6 +44,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         Route::post('v1/userAddress/add','UserAddressController@add');
         Route::post('v1/userAddress/update','UserAddressController@update');
         Route::post('v1/userAddress/delete','UserAddressController@delete');
+        // 订单
+        Route::post('v1/order/add','OrderController@add');
     });
 });
 
