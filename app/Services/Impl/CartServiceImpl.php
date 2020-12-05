@@ -155,7 +155,8 @@ class CartServiceImpl implements CartService
         if (!$skies) {
             throw new \Exception('商品不存在');
         }
-        $goods = (new GoodsServiceImpl())->model->select('title')->find($skies[0]['goods_id']);
+        $goods = (new GoodsServiceImpl())->model->select('title','goods_specs_type')
+            ->find($skies[0]['goods_id']);
         $goods = resultToArray($goods);
         $skuIdStock = array_column($skies, "stock", "sku_id");
         $skuIdPrice = array_column($skies, "price", "sku_id");
