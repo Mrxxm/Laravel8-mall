@@ -137,7 +137,7 @@ class GoodsController
 
     public function update(Request $request)
     {
-        $data = $request->only('id', 'title', 'category_id', 'category_path_id', 'goods_unit', 'keywords', 'stock', 'price', 'cost_price', 'is_show_stock', 'production_time', 'description', 'goods_specs_data', 'status', 'sort');
+        $data = $request->only('id', 'title', 'category_id', 'category_path_id', 'goods_unit', 'keywords', 'is_show_stock', 'production_time', 'description', 'goods_specs_data', 'status', 'sort');
 
         $validator = Validator::make($data, [
             'id'                  => 'required|integer',
@@ -151,9 +151,6 @@ class GoodsController
             'description'         => 'string',
             'status'              => 'integer|in:0,1',
             'sort'                => 'integer',
-            'stock'               => 'integer',
-            'price'               => '',
-            'cost_price'          => '',
         ]);
 
         if ($validator->fails()) {
