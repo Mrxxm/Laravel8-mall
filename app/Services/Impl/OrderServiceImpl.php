@@ -107,13 +107,11 @@ class OrderServiceImpl implements OrderService
             unset($v['create_time']);
             return $v;
         }, $cart);
-//        dd($cart, $fields, $orderGoods);
 
         // 4.准备order数据
         $fields['order_no']    = $orderNo;
         $fields['total_price'] = array_sum(array_column($orderGoods, "total_price"));
         $fields['total_num']   = array_sum(array_column($orderGoods, "num"));
-//        dd($cart, $fields, $orderGoods, $fields);
 
         DB::beginTransaction();
         try {
