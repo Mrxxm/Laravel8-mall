@@ -124,7 +124,7 @@ class CartServiceImpl implements CartService
 
         foreach ($redisCart as $skuId => $cartInfo) {
             $cartInfo = json_decode($cartInfo, true);
-            if ($ids && isset($stocks[$skuId]) && $skuIdStock[$skuId] < $cartInfo['num']) {
+            if ($ids && isset($skuIdStock[$skuId]) && $skuIdStock[$skuId] < $cartInfo['num']) {
                 throw new \Exception($cartInfo['title']."的商品库存不足");
             }
             $price = $skuIdPrice[$skuId] ?? 0;
@@ -162,7 +162,7 @@ class CartServiceImpl implements CartService
         $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
         $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
 
-        if (isset($stocks[$skuId]) && $skuIdStock[$skuId] < $num) {
+        if (isset($skuIdStock[$skuId]) && $skuIdStock[$skuId] < $num) {
             throw new \Exception($goods['title']."的商品库存不足");
         }
         $price = $skuIdPrice[$skuId] ?? 0;
