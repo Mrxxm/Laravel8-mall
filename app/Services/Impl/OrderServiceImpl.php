@@ -44,7 +44,6 @@ class OrderServiceImpl implements OrderService
         // 3.准备order_goods数据
         $orderGoods = array_map(function ($v) use ($orderNo) {
             $v['order_no'] = $orderNo;
-            unset($v['sku']);
             unset($v['create_time']);
             return $v;
         }, $cart);
@@ -103,7 +102,6 @@ class OrderServiceImpl implements OrderService
         // 3.准备order_goods数据
         $orderGoods = array_map(function ($v) use ($orderNo) {
             $v['order_no'] = $orderNo;
-            unset($v['sku']);
             unset($v['create_time']);
             return $v;
         }, $cart);
