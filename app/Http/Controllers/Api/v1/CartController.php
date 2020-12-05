@@ -11,6 +11,30 @@ use Illuminate\Support\Facades\Validator;
 
 class CartController
 {
+    public function single(Request $request)
+    {
+        $data = $request->only('sku_id', 'num');
+
+        $validator = Validator::make($data, [
+            'sku_id'            => 'required|string',
+            'num'               => 'integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new CartServiceImpl();
+
+        try {
+            $result = $service->single($data);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE, $result);
+    }
+
     public function list(Request $request)
     {
         $data = $request->only('sku_ids');
