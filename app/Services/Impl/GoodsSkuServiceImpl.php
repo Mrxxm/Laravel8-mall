@@ -141,4 +141,32 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         // 更新商品表
         (new GoodsServiceImpl())->model->updateById($goodsId, $goodsUpd);
     }
+
+    public function incrStock(int $id, int $num)
+    {
+        $goodsSku = $this->model->find($id);
+        if (!$goodsSku) {
+            throw new \Exception('商品sku不存在');
+        }
+        if ($goodsSku->delete_time != 0) {
+            throw new \Exception('商品sku已删除');
+        }
+
+        $this->model->increment('stock', $num);
+        (new GoodsServiceImpl())->model->increment('stock', $num);
+    }
+
+    public function decrStock(int $id, int $num)
+    {
+        $goodsSku = $this->model->find($id);
+        if (!$goodsSku) {
+            throw new \Exception('商品sku不存在');
+        }
+        if ($goodsSku->delete_time != 0) {
+            throw new \Exception('商品sku已删除');
+        }
+
+        $this->model->decrement('stock', $num);
+        (new GoodsServiceImpl())->model->decrement('stock', $num);
+    }
 }
