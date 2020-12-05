@@ -41,7 +41,7 @@ class OrderController
 
         $validator = Validator::make($data, [
             'address_id'         => 'required|integer',
-            'sku_id'             => 'required|string',
+            'sku_id'             => 'required|integer',
             'num'                => 'required|integer',
         ]);
 
