@@ -152,8 +152,11 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             throw new \Exception('商品sku已删除');
         }
 
-        $this->model->increment('stock', $num);
-        (new GoodsServiceImpl())->model->increment('stock', $num);
+        $this->model->where('id', $id)
+            ->increment('stock', $num);
+        (new GoodsServiceImpl())->model
+            ->where('id', $goodsSku->goods_id)
+            ->increment('stock', $num);
     }
 
     public function decrStock(int $id, int $num)
@@ -166,7 +169,10 @@ class GoodsSkuServiceImpl implements GoodsSkuService
             throw new \Exception('商品sku已删除');
         }
 
-        $this->model->decrement('stock', $num);
-        (new GoodsServiceImpl())->model->decrement('stock', $num);
+        $this->model->where('id', $id)
+            ->decrement('stock', $num);
+        (new GoodsServiceImpl())->model
+            ->where('id', $goodsSku->goods_id)
+            ->decrement('stock', $num);
     }
 }
