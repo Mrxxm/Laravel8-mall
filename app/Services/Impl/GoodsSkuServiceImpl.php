@@ -127,7 +127,7 @@ class GoodsSkuServiceImpl implements GoodsSkuService
         $conditions = [];
         $conditions[] = ['goods_id', '=', $goodsId];
         $conditions[] = ['delete_time', '=', 0];
-        $orderBy = ['cost_price', 'asc'];
+        $orderBy = ['cost_price', 'asc']; // 按最低销售排序
         $skuResult = $this->model->list($select, $conditions, $orderBy, false);
 
         // 总库存
