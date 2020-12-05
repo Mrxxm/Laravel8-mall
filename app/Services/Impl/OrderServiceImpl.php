@@ -59,15 +59,13 @@ class OrderServiceImpl implements OrderService
             // 5.插入order
             $order = $this->model->add($fields);
             if (!$order->id) {
-                DB::rollBack();
-                return ;
+                throw new \Exception('插入order失败!');
             }
             // 6.插入order_goods
             foreach ($orderGoods as $orderGood) {
                 $og = $this->orderGoodsService->model->add($orderGood);
                 if (!$og->id) {
-                    DB::rollBack();
-                    return ;
+                    throw new \Exception('插入order_goods失败!');
                 }
                 $ogs[] = resultToArray($og);
             }
@@ -122,15 +120,13 @@ class OrderServiceImpl implements OrderService
             // 5.插入order
             $order = $this->model->add($fields);
             if (!$order->id) {
-                DB::rollBack();
-                return ;
+                throw new \Exception('插入order失败!');
             }
             // 6.插入order_goods
             foreach ($orderGoods as $orderGood) {
                 $og = $this->orderGoodsService->model->add($orderGood);
                 if (!$og->id) {
-                    DB::rollBack();
-                    return ;
+                    throw new \Exception('插入order_goods失败!');
                 }
                 $ogs[] = resultToArray($og);
             }
