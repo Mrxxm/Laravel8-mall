@@ -36,6 +36,11 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         Route::post('v1/cart/update','CartController@update');
         Route::post('v1/cart/delete','CartController@delete');
         Route::get('v1/cart/list','CartController@list');
+        // 收货地址
+        Route::get('v1/userAddress/list','UserAddressController@list');
+        Route::post('v1/userAddress/add','UserAddressController@add');
+        Route::post('v1/userAddress/update','UserAddressController@update');
+        Route::post('v1/userAddress/delete','UserAddressController@delete');
     });
 });
 
