@@ -14,10 +14,15 @@ class DemoController
         return $randChar;
     }
 
+    /**
+     * 分布式id生成器
+     * @return int
+     * @throws \Exception
+     */
     public function snowflake()
     {
-        // workId 1 ~ 1023
-        $NO = Snowflake::getInstance()->setWorkId(1)->id();
+        // workId 0 ~ 1023
+        $NO = Snowflake::getInstance()->setWorkId(0)->id();
         return $NO;
     }
 }
