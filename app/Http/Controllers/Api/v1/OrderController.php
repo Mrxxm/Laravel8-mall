@@ -34,4 +34,29 @@ class OrderController
 
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
+
+    public function addSingle(Request $request)
+    {
+        $data = $request->only('address_id', 'sku_id', 'num');
+
+        $validator = Validator::make($data, [
+            'address_id'         => 'required|integer',
+            'sku_id'             => 'required|string',
+            'num'                => 'required|integer',
+        ]);
+
+        if ($validator->fails()) {
+            return Response::makeResponse(false, Response::MISSING_PARAM, [], $validator->errors()->first());
+        }
+
+        $service = new OrderServiceImpl();
+
+        try {
+            $service->addSingle($data);
+        } catch (\Exception $exception) {
+            return Response::makeResponse(false, Response::UNKNOWN_ERROR, [], $exception->getMessage());
+        }
+
+        return Response::makeResponse(true, Response::SUCCESS_CODE);
+    }
 }
