@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
     Route::any('v1/demo/index','DemoController@index');
+    // 雪花生成器
+    Route::any('v1/demo/snowflake','DemoController@snowflake');
+    // 登录
     Route::get('v1/login/getToken','LoginController@getToken');
     Route::get('v1/login/verifyToken','LoginController@verifyToken');
     // 分类
