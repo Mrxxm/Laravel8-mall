@@ -41,6 +41,7 @@ class CartServiceImpl implements CartService
                 $get = json_decode($get, true);
                 $data['num'] += $get['num'];
             }
+            // TODO::添加库存判断
 
             $res = (Redis::getInstance())->hSet($key, $skuId, json_encode($data));
         } catch (\Exception $e) {
@@ -58,6 +59,7 @@ class CartServiceImpl implements CartService
             if ($get) {
                 $get = json_decode($get, true);
                 $get['num'] = $fields['num'];
+                // TODO::添加库存判断
             } else {
                 throw new \Exception("不存在该购物车的商品，您更新没有任何意义");
             }
