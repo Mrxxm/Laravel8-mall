@@ -77,7 +77,7 @@ class CartServiceImpl implements CartService
         $userId = request('uId');
         $key = 'cart_' . $userId;
         try {
-            // ... 是PHP提供一个特性 可变参数
+            // ... 是PHP提供一个特性 可变参数($ids = [1, 2]) 传参就是 $ids[0], $ids[1] 变成两个参数
             $res = (Redis::getInstance())->hDel($key, ...$ids);
         } catch (\Exception $e) {
             throw new \Exception($e->getMessage());
