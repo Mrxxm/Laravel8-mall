@@ -160,7 +160,10 @@ class CartServiceImpl implements CartService
         $skuIdStock = array_column($skies, "stock", "sku_id");
         $skuIdPrice = array_column($skies, "price", "sku_id");
         $svIdsToSkuId = array_column($skies, 'sku_id', 'specs_value_ids');
-        $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
+        $specsValues = [];
+        if ($goods['goods_specs_type'] == 2) {
+            $specsValues = (new SpecsValueServiceImpl())->handleSpecsValue($svIdsToSkuId);
+        }
 
         if (isset($skuIdStock[$skuId]) && $skuIdStock[$skuId] < $num) {
             throw new \Exception($goods['title']."的商品库存不足");
