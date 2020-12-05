@@ -39,6 +39,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         Route::post('v1/cart/update','CartController@update');
         Route::post('v1/cart/delete','CartController@delete');
         Route::get('v1/cart/list','CartController@list');
+        Route::get('v1/cart/single','CartController@single'); // service方法供下单使用
         // 收货地址
         Route::get('v1/userAddress/list','UserAddressController@list');
         Route::post('v1/userAddress/add','UserAddressController@add');
@@ -46,6 +47,8 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         Route::post('v1/userAddress/delete','UserAddressController@delete');
         // 订单
         Route::post('v1/order/add','OrderController@add');
+        Route::post('v1/order/addSingle','OrderController@addSingle');
+
     });
 });
 
