@@ -199,7 +199,7 @@ class OrderServiceImpl implements OrderService
              *        goods表总库存也需要修改。
              */
 
-            $order = $this->model->where('order_no', '=', $result[0]);
+            $order = $this->model->where('order_no', '=', $result[0])->select('status')->first();
             if ($order->status == 1) {
                 $this->model->where('order_no', '=', $result[0])->update(['status' => 7]);
 
