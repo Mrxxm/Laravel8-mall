@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Http\Controllers\Api\Response;
 use App\Services\Impl\OrderServiceImpl;
+use App\Utils\Redis;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -58,6 +59,12 @@ class OrderController
         }
 
         return Response::makeResponse(true, Response::SUCCESS_CODE);
+    }
+
+    // redis zadd方法调试
+    public function zAdd()
+    {
+        (Redis::getInstance())->zAdd('order_status1', [], 9, 10);
     }
 
     // 编写redis延迟异步队列处理订单超时
