@@ -64,7 +64,7 @@ class OrderController
     // redis zadd方法调试
     public function zAdd()
     {
-        (Redis::getInstance())->zAdd('order_status1', [], 9, 10);
+        (Redis::getInstance())->zAdd('order_status', ['NX'],10, 11);
     }
 
     // 编写redis延迟异步队列处理订单超时
