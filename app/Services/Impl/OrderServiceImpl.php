@@ -159,7 +159,7 @@ class OrderServiceImpl implements OrderService
          * 学习就是要不断的提升自己，老师授的只是思路，我们需要举一反三，从而提升自己
          */
         try {
-            (Redis::getInstance())->zAdd("order_status", [],time() + 30, $orderNo);
+            (Redis::getInstance())->zAdd("order_status", ['NX'],time() + 30, $orderNo);
         } catch (\Exception $e) {
             // 记录日志， 添加监控 ，异步根据监控内容处理。
         }
@@ -176,7 +176,7 @@ class OrderServiceImpl implements OrderService
     // 定时任务消费延迟消息队列
     public function checkOrderStatus() {
 
-        $result = (Redis::getInstance())->zRangeByScore("order_status", 0, time(), ['limit' => [0, 1]]);
+        $result = (Redis::getInstance())->zRangeByScore("order_status", 1, time(), ['limit' => [0, 1]]);
 
         if(empty($result) || empty($result[0])) {
             return false;
