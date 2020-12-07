@@ -2,6 +2,8 @@
 
 [showdoc](https://www.showdoc.com.cn/kenrou?page_id=5597483017503358)
 
+[doc文档下载](http://blog.kenrou.cn/Just%20to%20do.doc)
+
 ## 秒杀的三种方式
 
 ```
