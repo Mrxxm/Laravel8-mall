@@ -24,7 +24,9 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-         $schedule->command('order:overtime')->everyMinute();
+         $schedule->command('order:overtime')
+             ->timezone('Asia/Shanghai')
+             ->everyMinute();
     }
 
     /**
