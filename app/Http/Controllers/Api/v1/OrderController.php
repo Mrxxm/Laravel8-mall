@@ -60,6 +60,7 @@ class OrderController
         return Response::makeResponse(true, Response::SUCCESS_CODE);
     }
 
+    // 编写redis延迟异步队列处理订单超时
     public function checkOrderStatus()
     {
         (new OrderServiceImpl())->checkOrderStatus();
