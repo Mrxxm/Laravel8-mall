@@ -113,9 +113,9 @@ class Redis
         return $this->redis->hMGet($key, $hashKeys);
     }
 
-    public function zAdd($key, $option, $score1, $value1, $score2 = null, $value2 = null, $scoreN = null, $valueN = null)
+    public function zAdd($key, $options, $score1, $value1, $score2 = null, $value2 = null, $scoreN = null, $valueN = null)
     {
-        return $this->redis->zAdd($key, $option, $score1, $value1, $score2, $value2);
+        return $this->redis->zAdd($key, $options, $score1, $value1, $score2 = null, $value2 = null, $scoreN = null, $valueN = null);
     }
 
     public function zRangeByScore($key, $start, $end, array $options = array())
