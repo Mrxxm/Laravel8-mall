@@ -113,4 +113,14 @@ class Redis
         return $this->redis->hMGet($key, $hashKeys);
     }
 
+    public function zRangeByScore($key, $start, $end, array $options = array())
+    {
+        return $this->redis->zRangeByScore($key, $start, $end, $options);
+    }
+
+    public function zRem($key, $member1, ...$otherMembers)
+    {
+        return $this->redis->zRem($key, $member1, ...$otherMembers);
+    }
+
 }
