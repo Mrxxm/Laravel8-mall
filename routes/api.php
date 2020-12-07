@@ -48,6 +48,7 @@ Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
         // 订单
         Route::post('v1/order/add','OrderController@add');
         Route::post('v1/order/addSingle','OrderController@addSingle');
+        Route::get('v1/order/zAdd','OrderController@zAdd');
         Route::get('v1/order/checkOrderStatus','OrderController@checkOrderStatus');
 
     });
