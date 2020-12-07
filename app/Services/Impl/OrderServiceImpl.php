@@ -159,7 +159,7 @@ class OrderServiceImpl implements OrderService
          * 学习就是要不断的提升自己，老师授的只是思路，我们需要举一反三，从而提升自己
          */
         try {
-//            (Redis::getInstance())->zAdd("order_status", time() + 20 * 60, $orderNo);
+            (Redis::getInstance())->zAdd("order_status", time() + 10, $orderNo);
         } catch (\Exception $e) {
             // 记录日志， 添加监控 ，异步根据监控内容处理。
         }
@@ -184,7 +184,7 @@ class OrderServiceImpl implements OrderService
 
         try {
             $delRedis = (Redis::getInstance())->zRem("order_status", $result[0]);
-        }catch (\Exception $e) {
+        } catch (\Exception $e) {
             // 记录日志
             $delRedis = "";
         }
@@ -198,10 +198,25 @@ class OrderServiceImpl implements OrderService
              *        拿到 sku_id num  把sku表数据库存增加num
              *        goods表总库存也需要修改。
              */
+
+            $order = $this->model->where('order_no', '=', $result[0]);
+            if ($order->status == 1) {
+                $this->model->where('order_no', '=', $result[0])->update(['status' => 7]);
+
+                $select = ['id', 'sku_id', 'num'];
+                $conditions = [];
+                $conditions[] = ['order_no', '=', $result[0]];
+                $goodsOrder = $this->orderGoodsService->model->list($select, $conditions, ['id', 'asc'], false);
+                if (count($goodsOrder)) {
+                    foreach ($goodsOrder as $goodOrder) {
+                        (new GoodsSkuServiceImpl())->incrStock($goodOrder['sku_id'], $goodOrder['num']);
+                    }
+                }
+            }
+
+            return true;
         } else {
             return false;
         }
-
-        return true;
     }
 }
