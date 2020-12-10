@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Route;
 Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
     Route::any('v1/demo/index','DemoController@index');
+    // lock
+    Route::any('v1/demo/lock','DemoController@lock');
     // 雪花生成器
     Route::any('v1/demo/snowflake','DemoController@snowflake');
     // 登录
