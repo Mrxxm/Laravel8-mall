@@ -10,17 +10,17 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 /*
- * mysql> CREATE TABLE `storage` (
+ * mysql> CREATE TABLE `b_storage` (
     ->   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     ->   `number` int(11) DEFAULT NULL,
     ->   PRIMARY KEY (`id`)
-    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
- * mysql> CREATE TABLE `order` (
+ * mysql> CREATE TABLE `b_order` (
     ->   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
     ->   `number` int(11) DEFAULT NULL,
     ->   PRIMARY KEY (`id`)
-    -> ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+    -> ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
     Query OK, 0 rows affected (0.01 sec)
  */
 
