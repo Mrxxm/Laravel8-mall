@@ -45,7 +45,6 @@ class SecKillController
 
         $result = DB::table('b_storage')
             ->where('id', '=', 1)
-            ->where('number', '=', $quantity)
             ->where('number', '>=', self::COUNT)
             ->update($upd);
 
@@ -60,7 +59,7 @@ class SecKillController
     }
 
     // storage 10
-    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/exclusiveLock
+    // ab -n 20 -c 10 http://www.laravel8.com/api/v1/secKill/exclusiveLock
     // 阻塞 公平
     public function exclusiveLock(Request $request)
     {
