@@ -93,7 +93,7 @@ class SecKillController
     }
 
     // storage 10
-    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/redisLock
+    // ab -n 20 -c 10 http://www.laravel8.com/api/v1/secKill/redisLock
     // 非阻塞 不公平
     public function redisLock(Request $request)
     {
