@@ -65,7 +65,7 @@ class SecKillController
     {
         DB::beginTransaction();
 
-        $storage = DB::table('storage')
+        $storage = DB::table('b_storage')
             ->where('id', '=', 1)
             ->lockForUpdate()
             ->first();
@@ -75,7 +75,7 @@ class SecKillController
         $upd = [];
         $upd['number'] = $quantity - self::COUNT;
 
-        $result = DB::table('storage')
+        $result = DB::table('b_storage')
             ->where('id', '=', 1)
             ->where('number', '>=', self::COUNT)
             ->update($upd);
@@ -83,7 +83,7 @@ class SecKillController
         if ($result) {
             $insert = [];
             $insert['number'] = $quantity;
-            DB::table('order')
+            DB::table('b_order')
                 ->insert($insert);
         }
 
