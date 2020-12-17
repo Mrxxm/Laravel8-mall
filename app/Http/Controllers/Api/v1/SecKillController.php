@@ -30,7 +30,7 @@ class SecKillController
     const COUNT = 1;
 
     // storage 10
-    // ab -n 20 -c 10 http://www.tool.com/api/v1/secKill/sharedLock
+    // ab -n 20 -c 10 http://www.laravel8.com/api/v1/secKill/sharedLock
     // 非阻塞 不公平
     public function sharedLock(Request $request)
     {
@@ -45,6 +45,7 @@ class SecKillController
 
         $result = DB::table('b_storage')
             ->where('id', '=', 1)
+            ->where('number', '=', $quantity)
             ->where('number', '>=', self::COUNT)
             ->update($upd);
 
