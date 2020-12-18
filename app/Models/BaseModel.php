@@ -20,7 +20,7 @@ class BaseModel extends Model
             $currentPage = $requestPage ? $requestPage : $page;
             $res = $obj->paginate($pageSize, ['*'], 'page', $currentPage);
         } else {
-            $res = $this->get();
+            $res = $obj->get();
         }
 
         if (count($res)) {
