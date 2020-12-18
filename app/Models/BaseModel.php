@@ -11,15 +11,14 @@ class BaseModel extends Model
 {
     public function list(array $select, array $conditions, array $orderBy = array('id', 'desc'), bool $paginate = true, int $page = 1, $pageSize = 10) : array
     {
-        $this->autoConditions($conditions)
-             ->autoOrderBy($orderBy)
-             ->select($select);
+        $obj = self::select($select);
+        $this->autoConditions($obj, $conditions);
+        $this->autoOrderBy($obj, $orderBy);
 
         if ($paginate) {
             $requestPage = request('page');
             $currentPage = $requestPage ? $requestPage : $page;
-            $res = $this->paginate($pageSize, ['*'], 'page', $currentPage);
-//            $res = $result->toSql();dd($res);
+            $res = $obj->paginate($pageSize, ['*'], 'page', $currentPage);
         } else {
             $res = $this->get();
         }
@@ -48,19 +47,17 @@ class BaseModel extends Model
             ->update(['delete_time' => time()]);
     }
 
-    public function autoOrderBy(array $orderBy)
+    public function autoOrderBy($obj, array $orderBy)
     {
         $count = count($orderBy);
         $i = 0;
         while (($count - $i) >= 2) {
-            $this->orderBy($orderBy[$i], $orderBy[$i + 1]);
+            $obj->orderBy($orderBy[$i], $orderBy[$i + 1]);
             $i += 2;
         }
-
-        return $this;
     }
 
-    public function autoConditions(array $conditions)
+    public function autoConditions($obj, array $conditions)
     {
         if (!empty($conditions)) {
             foreach ($conditions as $condition) {
@@ -71,27 +68,26 @@ class BaseModel extends Model
                 if ($num == 3) {
                     switch (strtolower($condition[1])) {
                         case 'in':
-                            $this->whereIn($condition[0], $condition[2]);
+                            $obj->whereIn($condition[0], $condition[2]);
                             break;
                         case 'notin':
-                            $this->whereNotIn($condition[0], $condition[2]);
+                            $obj->whereNotIn($condition[0], $condition[2]);
                             break;
                         case 'like':
-                            $this->where($condition[0], $condition[1], $condition[2]);
+                            $obj->where($condition[0], $condition[1], $condition[2]);
                             break;
                         case 'find_in_set':
-                            $this->whereRaw("FIND_IN_SET({$condition[2]}, {$condition[0]})");
+                            $obj->whereRaw("FIND_IN_SET({$condition[2]}, {$condition[0]})");
                             break;
                         default:
-                            $this->where($condition[0], $condition[1], $condition[2]);
+                            $obj->where($condition[0], $condition[1], $condition[2]);
+                            break;
                     }
                 } else {
-                    $this->where($condition[0], $condition[1]);
+                    $obj->where($condition[0], $condition[1]);
                 }
             }
         }
-
-        return $this;
     }
 
     protected function serializeDate(DateTimeInterface $date)
