@@ -1,10 +1,35 @@
-## 项目文档地址
+## About Laravel8 Market
+
+## Explanatory Chart
+
+* 商城系统
+
+* 前台
+
+1.小程序登录  
+2.用户相关  
+3.分类相关  
+4.商品相关  
+5.购物车相关  
+6.用户地址  
+7.订单相关  
+
+* 后台
+
+1.后台登录  
+2.前台用户管理  
+3.后台用户管理  
+4.分类管理  
+5.规格管理  
+6.规格属性管理  
+7.商品管理  
+
 
 ![](https://img3.doubanio.com/view/photo/l/public/p2627783720.jpg)
 
-[showdoc](https://www.showdoc.com.cn/kenrou?page_id=5597483017503358)
+## Document
 
-[doc文档下载](http://blog.kenrou.cn/Just%20to%20do.doc)
+[接口文档](https://www.showdoc.com.cn/kenrou?page_id=5597339566627627)
 
 ## 秒杀的三种方式
 
