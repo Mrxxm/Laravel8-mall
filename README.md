@@ -1,5 +1,9 @@
 ## About Laravel8 Market
 
+## 关系图
+
+![](https://img9.doubanio.com/view/photo/l/public/p2629005626.jpg)
+
 ## Explanatory Chart
 
 * 商城系统
