@@ -229,4 +229,6 @@ return [
 
     ],
 
+    'service_path' => "App\Services\Impl\%sImpl",
+
 ];
