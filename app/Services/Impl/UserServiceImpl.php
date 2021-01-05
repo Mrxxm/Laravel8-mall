@@ -19,7 +19,8 @@ class UserServiceImpl implements UserService
 
     public function getById(int $uId): array
     {
-        $userInfo = UserModel::where('id', '=', $uId)
+        $userInfo = $this->getUserModel()
+            ->where('id', '=', $uId)
             ->select('avatar', 'mobile', 'nickname')
             ->first();
         $result = resultToArray($userInfo);
@@ -66,5 +67,15 @@ class UserServiceImpl implements UserService
         }
 
         return $result;
+    }
+
+    /**
+     * @return UserModel
+     */
+    protected function getUserModel(String $model = 'UserModel')
+    {
+        app()->singleton($model, sprintf(config('app.dao_path'), $model));
+
+        return app()->get($model);
     }
 }

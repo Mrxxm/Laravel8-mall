@@ -39,6 +39,9 @@ class DemoController
         return $sadLock;
     }
 
+    /**
+     * @return UserService
+     */
     protected function getUserService(String $service = 'UserService')
     {
         app()->singleton($service, sprintf(config('app.service_path'), $service));
