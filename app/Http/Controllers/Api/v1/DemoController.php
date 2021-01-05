@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Utils\Snowflake;
+use Illuminate\Container\Container;
 use Illuminate\Support\Facades\DB;
 
 class DemoController
@@ -40,8 +41,7 @@ class DemoController
 
     protected function getUserService(String $service = 'UserService')
     {
-        $class = "App\Services\Impl\\". $service . "Impl";
-        app()->singleton($service, $class);
+        app()->singleton($service, sprintf(config('service_path'), $service));
 
         return app()->get($service);
     }
