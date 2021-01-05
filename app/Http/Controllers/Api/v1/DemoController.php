@@ -41,7 +41,7 @@ class DemoController
 
     protected function getUserService(String $service = 'UserService')
     {
-        app()->singleton($service, sprintf(config('service_path'), $service));
+        app()->singleton($service, sprintf(config('app.service_path'), $service));
 
         return app()->get($service);
     }
