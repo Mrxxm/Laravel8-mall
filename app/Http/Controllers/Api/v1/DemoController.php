@@ -4,6 +4,8 @@
 namespace App\Http\Controllers\Api\v1;
 
 
+use App\Http\Controllers\Controller;
+use App\Services\UserService;
 use App\Utils\Snowflake;
 use Illuminate\Support\Facades\DB;
 
@@ -11,6 +13,7 @@ class DemoController
 {
     public function index()
     {
+        return $this->getUserService()->getById(2);
         $randChar = getRandChar(32);
         return $randChar;
     }
@@ -33,5 +36,13 @@ class DemoController
 //        return $shareLock;
         $sadLock = DB::table('user')->where('id', '=', 2)->lockForUpdate()->dd();
         return $sadLock;
+    }
+
+    protected function getUserService(String $service = 'UserService')
+    {
+        $class = "App\Services\Impl\\". $service . "Impl";
+        app()->singleton($service, $class);
+
+        return app()->get($service);
     }
 }
