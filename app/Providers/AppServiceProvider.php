@@ -2,7 +2,7 @@
 
 namespace App\Providers;
 
-use App\Services\Impl\UserServiceImpl;
+use App\Services\Impl\AdminUserServiceImpl;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,9 +14,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app->singleton('App\Services\UserService', function ($app){
-//            return new UserServiceImpl();
-//        });
+        $this->app->singleton('AdminUS', function ($app){
+            return new AdminUserServiceImpl();
+        });
     }
 
     /**
