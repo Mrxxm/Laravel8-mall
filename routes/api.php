@@ -15,6 +15,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['namespace' => 'App\Http\Controllers\Api\v1'], function () {
 
+    // 门面测试
+    Route::any('v1/demo/facadeService','DemoController@facadeService');
+
     Route::any('v1/demo/index','DemoController@index');
     // lock
     Route::any('v1/demo/lock','DemoController@lock');
