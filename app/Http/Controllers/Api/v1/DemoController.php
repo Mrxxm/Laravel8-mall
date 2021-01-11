@@ -4,11 +4,11 @@
 namespace App\Http\Controllers\Api\v1;
 
 
-use App\Http\Controllers\Controller;
 use App\Services\UserService;
 use App\Utils\Snowflake;
-use Illuminate\Container\Container;
 use Illuminate\Support\Facades\DB;
+use AUService;
+use App\Facades\AdminUserServiceFacade;
 
 class DemoController
 {
@@ -47,5 +47,12 @@ class DemoController
         app()->singleton($service, sprintf(config('app.service_path'), $service));
 
         return app()->get($service);
+    }
+
+    public function facadeService()
+    {
+        $result1 = AUService::list([]);
+        $reeult2 = AdminUserServiceFacade::list([]);
+        dd($result1, $reeult2);
     }
 }
