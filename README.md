@@ -141,4 +141,185 @@ class SecKillController
     }
 }
 ```
+#### 发红包限制
+
+```
+2.88元 200个
+6.66元 150个
+8.88元 48个
+```
+
+```$xslt
+namespace App\Http\Controllers\Dsc\v1;
+
+
+
+use App\Services\Dsc\RedisOperation;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Symfony\Component\Config\Definition\Exception\Exception;
+
+class RedPacketController
+{
+    private $redPacketRuleTable = 'red_packet_rule';
+    private $redPacketLogs = 'red_packet_logs';
+    const COUNT = 1;
+
+    // 共享锁方案
+    // 非阻塞 不公平
+    public function shareLockGet(Request $request)
+    {
+        $activityId = request('activity_id') ?? 1;
+        $userId = request('userid') ?? rand(1000, 9999);
+
+        $isExist = DB::table($this->redPacketLogs)
+            ->where('activity_id', '=', $activityId)
+            ->where('user_id', '=', $userId)
+            ->count();
+        if ($isExist) {
+            return '已经领取';
+        }
+
+        $redPacketRule = DB::table($this->redPacketRuleTable)
+            ->select('id as rule_id', 'activity_id', 'amount', 'num', 'handle_num')
+            ->where('activity_id', '=', $activityId)
+            ->where('is_del', '=', 0)
+            ->where('is_show', '=', 1)
+            ->get()
+            ->toArray();
+        $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
+        $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
+
+        $redPacketRuleKey = array_rand($redPacketRuleArr);
+        $ruleId = $ruleIdArr[$redPacketRuleKey];
+        $num = $redPacketRuleArr[$redPacketRuleKey];
+
+        $upd = [];
+        $upd['handle_num'] = $num - self::COUNT;
+        $result = DB::table($this->redPacketRuleTable)
+            ->where('id', '=', $ruleId)
+            ->where('handle_num', '>=', self::COUNT)
+            ->update($upd);
+        if ($result) {
+            $fields = [];
+            $fields['activity_id'] = $activityId;
+            $fields['rule_id']     = $ruleId;
+            $fields['user_id']     = $userId;
+            DB::table($this->redPacketLogs)
+                ->insert($fields);
+        }
+
+        return "领取成功！" . $redPacketRuleKey;
+    }
+
+    // 悲观锁方案
+    // 阻塞 公平
+    public function exclusiveLockGet(Request $request)
+    {
+        $activityId = request('activity_id') ?? 1;
+        $userId = request('userid') ?? rand(1000, 9999);
+
+        $isExist = DB::table($this->redPacketLogs)
+            ->where('activity_id', '=', $activityId)
+            ->where('user_id', '=', $userId)
+            ->count();
+        if ($isExist) {
+            return '已经领取';
+        }
+
+        DB::beginTransaction();
+
+        try {
+            $redPacketRule = DB::table($this->redPacketRuleTable)
+                ->select('id as rule_id', 'activity_id', 'amount', 'num', 'handle_num')
+                ->where('activity_id', '=', $activityId)
+                ->where('is_del', '=', 0)
+                ->where('is_show', '=', 1)
+                ->where('handle_num', '>', 0)
+                ->lockForUpdate()
+                ->get()
+                ->toArray();
+            $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
+            $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
+
+            $redPacketRuleKey = array_rand($redPacketRuleArr);
+            $ruleId = $ruleIdArr[$redPacketRuleKey];
+            $num = $redPacketRuleArr[$redPacketRuleKey];
+
+            $upd = [];
+            $upd['handle_num'] = $num - self::COUNT;
+            $result = DB::table($this->redPacketRuleTable)
+                ->where('id', '=', $ruleId)
+                ->update($upd);
+            if ($result) {
+                $fields = [];
+                $fields['activity_id'] = $activityId;
+                $fields['rule_id']     = $ruleId;
+                $fields['user_id']     = $userId;
+                DB::table($this->redPacketLogs)
+                    ->insert($fields);
+            }
+        } catch (Exception $exception) {
+            echo $exception->getMessage();
+            DB::rollBack();
+        }
+        DB::commit();
+
+        return "领取成功！" . $redPacketRuleKey;
+    }
+
+    // redis锁方案
+    // 非阻塞 不公平
+    public function redisLockGet(Request $request)
+    {
+        $activityId = request('activity_id') ?? 1;
+        $userId = request('userid') ?? rand(1000, 9999);
+
+        $isExist = DB::table($this->redPacketLogs)
+            ->where('activity_id', '=', $activityId)
+            ->where('user_id', '=', $userId)
+            ->count();
+        if ($isExist) {
+            return '已经领取';
+        }
+
+        $redis = new RedisOperation();
+        $setRes = $redis->setnx($activityId, 1);
+        if ($setRes) {
+            $redPacketRule = DB::table($this->redPacketRuleTable)
+                ->select('id as rule_id', 'activity_id', 'amount', 'num', 'handle_num')
+                ->where('activity_id', '=', $activityId)
+                ->where('is_del', '=', 0)
+                ->where('is_show', '=', 1)
+                ->where('handle_num', '>', 0)
+                ->get()
+                ->toArray();
+
+            $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
+            $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
+
+            $redPacketRuleKey = array_rand($redPacketRuleArr);
+            $ruleId = $ruleIdArr[$redPacketRuleKey];
+            $num = $redPacketRuleArr[$redPacketRuleKey];
+
+            $upd = [];
+            $upd['handle_num'] = $num - self::COUNT;
+            $result = DB::table($this->redPacketRuleTable)
+                ->where('id', '=', $ruleId)
+                ->update($upd);
+            if ($result) {
+                $fields = [];
+                $fields['activity_id'] = $activityId;
+                $fields['rule_id']     = $ruleId;
+                $fields['user_id']     = $userId;
+                DB::table($this->redPacketLogs)
+                    ->insert($fields);
+            }
+        }
+        $redis->del($activityId);
+
+        return "领取成功！" . $redPacketRuleKey;
+    }
+}
+```
 
