@@ -150,6 +150,9 @@ class SecKillController
 ```
 
 ```$xslt
+<?php
+
+
 namespace App\Http\Controllers\Dsc\v1;
 
 
@@ -185,8 +188,13 @@ class RedPacketController
             ->where('activity_id', '=', $activityId)
             ->where('is_del', '=', 0)
             ->where('is_show', '=', 1)
+            ->where('handle_num', '>', 0)
             ->get()
             ->toArray();
+
+        if (empty($redPacketRule)) {
+            return "已领完！";
+        }
         $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
         $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
 
@@ -207,9 +215,11 @@ class RedPacketController
             $fields['user_id']     = $userId;
             DB::table($this->redPacketLogs)
                 ->insert($fields);
-        }
 
-        return "领取成功！" . $redPacketRuleKey;
+            return "领取成功！" . $redPacketRuleKey;
+        } else {
+            return "领取失败！";
+        }
     }
 
     // 悲观锁方案
@@ -239,6 +249,10 @@ class RedPacketController
                 ->lockForUpdate()
                 ->get()
                 ->toArray();
+
+            if (empty($redPacketRule)) {
+                return "已领完！";
+            }
             $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
             $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
 
@@ -295,6 +309,11 @@ class RedPacketController
                 ->get()
                 ->toArray();
 
+            if (empty($redPacketRule)) {
+                $redis->del($activityId);
+
+                return "已领完！";
+            }
             $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
             $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
 
@@ -315,11 +334,92 @@ class RedPacketController
                 DB::table($this->redPacketLogs)
                     ->insert($fields);
             }
+            $redis->del($activityId);
+        } else {
+            return "领取失败！";
         }
-        $redis->del($activityId);
 
         return "领取成功！" . $redPacketRuleKey;
     }
+}
+```
+
+#### 抽奖
+
+```
+// 抽奖
+// 悲观锁方案
+// 阻塞 公平
+public function exclusiveLockLottery(Request $request)
+{
+    $activityId = request('activity_id') ?? 2;
+    $userId = request('userid') ?? rand(1000, 9999);
+
+    $isExist = DB::table($this->redPacketLogs)
+        ->where('activity_id', '=', $activityId)
+        ->where('user_id', '=', $userId)
+        ->count();
+    if ($isExist) {
+        return '已经领取';
+    }
+
+    DB::beginTransaction();
+
+    try {
+        $redPacketRule = DB::table($this->redPacketRuleTable)
+            ->select('id as rule_id', 'activity_id', 'amount', 'num', 'handle_num', 'weight')
+            ->where('activity_id', '=', $activityId)
+            ->where('is_del', '=', 0)
+            ->where('is_show', '=', 1)
+            ->where('handle_num', '>', 0)
+            ->lockForUpdate()
+            ->get()
+            ->toArray();
+
+        if (empty($redPacketRule)) {
+            return "已领完！";
+        }
+        $ruleIdArr = array_column($redPacketRule, 'rule_id', 'amount');
+        $redPacketRuleArr = array_column($redPacketRule, 'handle_num', 'amount');
+        $weightsArr = array_column($redPacketRule, 'weight', 'amount');
+        $weightValueArr = array_values($weightsArr);
+        $sumWeight = array_sum($weightValueArr);
+
+        //概率数组循环
+        $redPacketRuleKey = 0;
+        foreach ($weightsArr as $amount => $weight) {
+            $random = mt_rand(1, $sumWeight);
+            if ($random <= $weight) {
+                $redPacketRuleKey = $amount;
+                break;
+            } else {
+                $sumWeight -= $weight;
+            }
+        }
+
+        $ruleId = $ruleIdArr[$redPacketRuleKey];
+        $num = $redPacketRuleArr[$redPacketRuleKey];
+
+        $upd = [];
+        $upd['handle_num'] = $num - self::COUNT;
+        $result = DB::table($this->redPacketRuleTable)
+            ->where('id', '=', $ruleId)
+            ->update($upd);
+        if ($result) {
+            $fields = [];
+            $fields['activity_id'] = $activityId;
+            $fields['rule_id']     = $ruleId;
+            $fields['user_id']     = $userId;
+            DB::table($this->redPacketLogs)
+                ->insert($fields);
+        }
+    } catch (Exception $exception) {
+        echo $exception->getMessage();
+        DB::rollBack();
+    }
+    DB::commit();
+
+    return "领取成功！" . $redPacketRuleKey;
 }
 ```
 
