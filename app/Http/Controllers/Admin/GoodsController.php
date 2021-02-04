@@ -73,7 +73,7 @@ class GoodsController
             'production_time'     => 'required|date',
             'goods_specs_type'    => 'required|integer|in:1,2',
             'description'         => 'required|string',
-            'status'              => 'integer|0,1',
+            'status'              => 'integer|in:0,1',
             'stock'               => Rule::requiredIf(function () use ($data) {
                 if (isset($data['goods_specs_type'])) {
                     return $data['goods_specs_type'] == 1 ? true : false;
