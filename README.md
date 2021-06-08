@@ -1,10 +1,10 @@
 ## About Laravel8 Market
 
-## 引用Laravel8框架完成商城项目
+1.引用Laravel8框架完成商城项目
 
-## yum安装php方式[php7.2](https://www.cnblogs.com/itwlp/p/12004150.html)
+2.yum安装php方式[php7.2](https://www.cnblogs.com/itwlp/p/12004150.html)
 
-## nginx配置
+3.nginx配置
 
 ```
 server {
@@ -59,17 +59,17 @@ server {
 }
 ```
 
-## 数据库备份[数据库](http://blog.kenrou.cn/Laravel8-mall.sql)
+4.数据库备份[数据库](http://blog.kenrou.cn/Laravel8-mall.sql)
 
-## Document
+5.Document
 
 [接口文档](https://www.showdoc.com.cn/kenrou?page_id=5597339566627627)
 
-## 关系图
+6.关系图
 
 ![](https://img9.doubanio.com/view/photo/l/public/p2629005626.jpg)
 
-## Explanatory Chart
+7.Explanatory Chart
 
 * 商城系统
 
